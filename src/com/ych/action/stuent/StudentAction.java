@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -102,15 +103,17 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 				
 				String relative = ConstUtil.LOCALPATH+temp+"/"+fileName;
 				   student.setStudentImage(relative);
-				   attendDao.save(student);
-				   map.put("status", "SUCCESS");
 				   try {
 					FileUpload.generateImage(imgStr, imgpath);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					map.put("status", "FALSE");
-				}	   
+					map.put("message", "图片存储失败");
+				}	
+				   attendDao.save(student);
+				   map.put("status", "SUCCESS");
+   
 		}
 		 ResultUtils.toJson(ServletActionContext.getResponse(),map);
     	//studentDao.save(student);
@@ -137,6 +140,35 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
     	return null;
     }
 
+    public String updateStudent() throws IOException{
+    	Map<String,Object> map=new HashMap<String, Object>();
+    	if(StringUtils.isNotEmpty(student.getStudentImage())){
+		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH).replaceAll("\\","/");
+		  	   String imgStr=student.getStudentImage();
+		  	   String fileName = StringUitl.getStringTime() + ".jpg";
+			   String temp="/student_"+student.getName();
+			   String imgpath = AbsolutePath+temp+"/"+fileName;
+			   
+				File dir = new File( AbsolutePath+temp);
+				if(!dir.exists()){//文件夹不存在
+					dir.mkdir();//创建文件夹
+				}
+				
+				String relative = ConstUtil.LOCALPATH+temp+"/"+fileName;
+				   student.setStudentImage(relative);
+				   try {
+					FileUpload.generateImage(imgStr, imgpath);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					map.put("status", "FALSE");
+					map.put("message", "图片存储失败");
+				}	
+    	}
+    	studentDao.update(student);
+    	
+    	return null;
+    }
 	
 	/*@Override
 	public String add() throws Exception {

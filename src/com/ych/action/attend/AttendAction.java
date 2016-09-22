@@ -2,10 +2,12 @@ package com.ych.action.attend;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ModelDriven;
@@ -110,9 +112,32 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 	 */
 	
 	public String updateAttend() throws IOException{
-		
+	   	Map<String,Object> map=new HashMap<String, Object>();
+    	if(StringUtils.isNotEmpty(attend.getStudentImage())){
+	  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.NEWPATH).replaceAll("\\","/");
+	  	   String imgStr=attend.getStudentImage();
+	  	   String fileName = StringUitl.getStringTime() + ".jpg";
+		   String temp="/student_"+attend.getAttendId();
+		   String imgpath = AbsolutePath+temp+"/"+fileName;
+		   
+			File dir = new File( AbsolutePath+temp);
+			if(!dir.exists()){//文件夹不存在
+				dir.mkdir();//创建文件夹
+			}
+			
+			String relative = ConstUtil.NEWPATH+temp+"/"+fileName;
+			   attend.setStudentImage(relative);
+			   try {
+				FileUpload.generateImage(imgStr, imgpath);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				map.put("status", "FALSE");
+				map.put("message", "图片存储失败");
+			}	
+    	}
 		attendDao.update(attend);
-		Map<String, Object> map = new HashedMap();
+
 		map.put("status", "SUCCESS");
 		ResultUtils.toJson(ServletActionContext.getResponse(), map);
 		return null;
