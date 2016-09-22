@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- OGNL可以使用静态方法 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	
+<package name="default" extends="struts-default">
+
+
+		<!-- 配置拦截器 -->
+		<interceptors>
+			<!-- 验证用户登录的拦截器 -->
+			<interceptor name="loginInterceptor" class="com.ych.action.interceptor.TeacherLoginInteceptor"/>
+			<interceptor-stack name="teacherDefaultStack">
+				<interceptor-ref name="loginInterceptor"/>
+    			<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+
+ 		 <global-results>
+             <result name="login">/login.jsp</result>
+       	  </global-results>
+       	  <global-exception-mappings>
+		<exception-mapping result="error"
+				exception="com.ych.util.AppException">
+		</exception-mapping>
+		</global-exception-mappings>
+       	  <action name="login" class="com.ych.action.stuent.StudentAction" method="login">
+<!--          <result name="success">/main.jsp</result>
+             <result name="error">/login.jsp</result> -->
+         </action>
+       	  
+ </package>
+</struts>    

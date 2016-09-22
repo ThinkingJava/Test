@@ -1,0 +1,5 @@
+/* 懒人图库 搜集整理 www.lanrentuku.com */
+
+.actGotop{position:fixed; _position:absolute; bottom:100px; right:50px; width:150px; height:195px; display:none;}
+.actGotop a,.actGotop a:link{width:150px;height:195px;display:inline-block; background:url(${context_path}/css/images/gotop.png) no-repeat; _background:url(${context_path}/css/images/gotop.gif) no-repeat; outline:none;}
+.actGotop a:hover{width:150px; height:195px; background:url(${context_path}/css/images/gotopd.gif) no-repeat; outline:none;}
