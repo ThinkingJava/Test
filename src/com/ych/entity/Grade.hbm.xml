@@ -15,11 +15,11 @@
                 <comment>姓名</comment>
             </column>
         </property>
-        <property name="teacherId" type="java.lang.Integer">
+<!--         <property name="teacherId" type="java.lang.Integer">
             <column name="teacher_id" not-null="true">
                 <comment>教师id</comment>
             </column>
-        </property>
+        </property> -->
         <property name="number" type="java.lang.String">
             <column name="number" length="15">
                 <comment>人数</comment>
@@ -28,5 +28,14 @@
         <property name="hour" type="java.lang.Integer">
             <column name="hour" />
         </property>
+        
+        <!-- 一对一映射班级 -->
+        <many-to-one name="teacher" column="teacher_id"/>
+        
+        <!-- 映射班级项 -->
+		<set name="studetGrade" inverse="true" lazy="extra" cascade="all">
+			<key column="grade_id"/>
+			<one-to-many class="com.ych.entity.StudentGrade"/>
+		</set>
     </class>
 </hibernate-mapping>

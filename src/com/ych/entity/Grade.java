@@ -1,5 +1,7 @@
 package com.ych.entity;
 
+import java.util.Set;
+
 /**
  * Grade entity. @author MyEclipse Persistence Tools
  */
@@ -10,9 +12,12 @@ public class Grade implements java.io.Serializable {
 
 	private Integer gradeId;
 	private String name;
-	private Integer teacherId;
+//	private Integer teacherId;
 	private String number;
-	private Integer hour;
+	private Integer hour; 
+	
+	private Teacher teacher;
+	private Set<StudentGrade> studetGrade;
 
 	// Constructors
 
@@ -21,21 +26,23 @@ public class Grade implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Grade(Integer gradeId, String name, Integer teacherId) {
+	public Grade(Integer gradeId, String name, Teacher teacher) {
 		this.gradeId = gradeId;
 		this.name = name;
-		this.teacherId = teacherId;
+		this.teacher = teacher;
 	}
 
 	/** full constructor */
-	public Grade(Integer gradeId, String name, Integer teacherId,
+	public Grade(Integer gradeId, String name, Teacher teacher,
 			String number, Integer hour) {
 		this.gradeId = gradeId;
 		this.name = name;
-		this.teacherId = teacherId;
+		this.teacher = teacher;
 		this.number = number;
 		this.hour = hour;
 	}
+	
+	
 
 	// Property accessors
 
@@ -55,13 +62,6 @@ public class Grade implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public Integer getTeacherId() {
-		return this.teacherId;
-	}
-
-	public void setTeacherId(Integer teacherId) {
-		this.teacherId = teacherId;
-	}
 
 	public String getNumber() {
 		return this.number;
@@ -78,5 +78,31 @@ public class Grade implements java.io.Serializable {
 	public void setHour(Integer hour) {
 		this.hour = hour;
 	}
+
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+
+	public Set<StudentGrade> getStudetGrade() {
+		return studetGrade;
+	}
+
+	public void setStudetGrade(Set<StudentGrade> studetGrade) {
+		this.studetGrade = studetGrade;
+	}
+
+	@Override
+	public String toString() {
+		return "Grade [gradeId=" + gradeId + ", name=" + name + ", number="
+				+ number + ", hour=" + hour + ", teacher=" + teacher
+				+ ", studetGrade=" + studetGrade + "]";
+	}
+	
+	
 
 }

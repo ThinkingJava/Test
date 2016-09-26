@@ -6,5 +6,5 @@ import com.ych.dao.BaseDao;
 import com.ych.entity.Teacher;
 
 public interface TeacherDao extends BaseDao<Teacher> {
-   public List<Teacher> findByTeacher(int teacherId);
+   public Teacher findByTeacher(int teacherId);
 }

@@ -1,7 +1,5 @@
 package com.ych.dao.student;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +13,12 @@ public class StudentDaoImpl extends DaoSupport<Student> implements StudentDao {
 
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
-	public List<Student> findByStudent(int studentId) {
+	public Student findByStudent(int studentId) {
 		// TODO Auto-generated method stub
-		String where = "where student.studentId = ?";
+		String where = "where student_Id = ?";
 		Object[] queryParams = {studentId};
-		List<Student> list = find(-1, -1, where, queryParams).getList();
+		System.out.println("---"+studentId);
+		Student list = find(-1, -1, where, queryParams).getList().get(0);
 		System.out.println("StudentDaoImpl--->>findByCustomer()");
 		return list;
 	}

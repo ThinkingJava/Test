@@ -6,5 +6,5 @@ import com.ych.dao.BaseDao;
 import com.ych.entity.Grade;
 
 public interface GradeDao extends  BaseDao<Grade>{
-	 public List<Grade> findByGrade(int gradeId);
+	 public Grade findByGrade(int gradeId);
 }

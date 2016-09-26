@@ -8,7 +8,6 @@ import java.util.Map;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -40,8 +39,8 @@ public class DaoSupport<T> implements BaseDao<T>{
 		return hibernateTemplate;
 	}
 	@Override
-	public void delete(Object id) {
-		getTemplate().delete(id);
+	public void delete(Object object) {
+		getTemplate().delete(object);
 			
 		System.out.println("DaoSupport--->>delete()");
 	}
@@ -135,7 +134,7 @@ public class DaoSupport<T> implements BaseDao<T>{
 				Query query = session.createQuery(hql);//执行查询
 				setQueryParams(query,queryParams);//为参数赋值
 
-				return   query.list();
+				return query.list();
 			}
 		});
 		return null;
@@ -236,6 +235,7 @@ public class DaoSupport<T> implements BaseDao<T>{
 								.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
 								.append(createOrderBy(orderby))//添加排序条件参数
 								.toString();//转化为字符串
+				System.out.println(hql);
 				Query query = session.createQuery(hql);//执行查询
 				setQueryParams(query,queryParams);//为参数赋值
 				List<T> list = null;//定义List对象
@@ -253,6 +253,7 @@ public class DaoSupport<T> implements BaseDao<T>{
 									.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
 									.toString();//转化为字符串
 					query = session.createQuery(hql);//执行查询
+					System.out.println("---256--"+hql);
 					setQueryParams(query,queryParams);//设置hql参数
 					int totalRecords = ((Long) query.uniqueResult()).intValue();//类型转换
 					pageModel.setTotalRecords(totalRecords);//设置总记录数
@@ -261,7 +262,7 @@ public class DaoSupport<T> implements BaseDao<T>{
 				return null;
 			}
 		});
-		System.out.println("DaoSupport--->>find()");
+		System.out.println("DaoSupport--264->>find()");
 		return pageModel;//返回分页的实体对象
 	}
 	/**

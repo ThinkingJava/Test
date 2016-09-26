@@ -6,11 +6,10 @@ package com.ych.entity;
 
 public class StudentGrade implements java.io.Serializable {
 
-	// Fields
-
+	private static final long serialVersionUID = 1L;
 	private Integer studentGradeId;
-	private Integer studentId;
-	private Integer gradeId;
+	private Student student;
+	private Grade grade;
 	private Integer signnumber;
 
 	// Constructors
@@ -20,19 +19,19 @@ public class StudentGrade implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public StudentGrade(Integer studentGradeId, Integer studentId,
-			Integer gradeId) {
+	public StudentGrade(Integer studentGradeId, Student student,
+			Grade grade) {
 		this.studentGradeId = studentGradeId;
-		this.studentId = studentId;
-		this.gradeId = gradeId;
+		this.student = student;
+		this.grade = grade;
 	}
 
 	/** full constructor */
-	public StudentGrade(Integer studentGradeId, Integer studentId,
-			Integer gradeId, Integer signnumber) {
+	public StudentGrade(Integer studentGradeId, Student student,
+			Grade grade, Integer signnumber) {
 		this.studentGradeId = studentGradeId;
-		this.studentId = studentId;
-		this.gradeId = gradeId;
+		this.student = student;
+		this.grade = grade;
 		this.signnumber = signnumber;
 	}
 
@@ -45,23 +44,6 @@ public class StudentGrade implements java.io.Serializable {
 	public void setStudentGradeId(Integer studentGradeId) {
 		this.studentGradeId = studentGradeId;
 	}
-
-	public Integer getStudentId() {
-		return this.studentId;
-	}
-
-	public void setStudentId(Integer studentId) {
-		this.studentId = studentId;
-	}
-
-	public Integer getGradeId() {
-		return this.gradeId;
-	}
-
-	public void setGradeId(Integer gradeId) {
-		this.gradeId = gradeId;
-	}
-
 	public Integer getSignnumber() {
 		return this.signnumber;
 	}
@@ -70,4 +52,31 @@ public class StudentGrade implements java.io.Serializable {
 		this.signnumber = signnumber;
 	}
 
+	
+	
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public Grade getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grade grade) {
+		this.grade = grade;
+	}
+
+	@Override
+	public String toString() {
+		return "StudentGrade [studentGradeId=" + studentGradeId + ", student="
+				+ student + ", grade=" + grade + ", signnumber=" + signnumber
+				+ "]";
+	}
+
+	
+	
 }

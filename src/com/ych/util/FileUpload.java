@@ -6,6 +6,8 @@ import java.io.OutputStream;
 
 import org.apache.tomcat.util.buf.Base64;
 
+import Decoder.BASE64Decoder;
+
 public class FileUpload {
 
 	/**
@@ -19,7 +21,7 @@ public class FileUpload {
 
 	try {
 	// Base64解码
-	byte[] b=Base64.encode(imgStr.getBytes());
+	byte[] b= new BASE64Decoder().decodeBuffer(imgStr);
 	for (int i = 0; i < b.length; ++i) {
 	if (b[i] < 0) {// 调整异常数据
 	b[i] += 256;

@@ -13,11 +13,11 @@ import com.ych.entity.Grade;
 public class GradeDaoImpl extends DaoSupport<Grade> implements GradeDao{
 
 	@Override
-	public List<Grade> findByGrade(int gradeId) {
+	public Grade findByGrade(int gradeId) {
 		// TODO Auto-generated method stub
-		String where ="where grade.gradeId = ?";
+		String where ="where grade_id = ?";
 	    Object []queryParams ={gradeId};
-	    List<Grade> list=find(-1,-1,where,queryParams).getList();
+	    Grade list=find(-1,-1,where,queryParams).getList().get(0);
 		return list;
 	}
 

@@ -71,4 +71,13 @@ public class Teacher implements java.io.Serializable {
 		this.teacherImage = teacherImage;
 	}
 
+	@Override
+	public String toString() {
+		return "Teacher [teacherId=" + teacherId + ", name=" + name + ", sex="
+				+ sex + ", department=" + department + ", teacherImage="
+				+ teacherImage + "]";
+	}
+	
+	
+
 }

@@ -12,11 +12,11 @@ import com.ych.entity.Teacher;
 public class TeacherDaoImpl extends DaoSupport<Teacher> implements TeacherDao{
 
 	@Override
-	public List<Teacher> findByTeacher(int teacherId) {
+	public Teacher findByTeacher(int teacherId) {
 		// TODO Auto-generated method stub
 		String where = "where teacher.teacherId = ?";
 		Object[] queryParams = {teacherId};
-		List<Teacher> list = find(-1, -1, where, queryParams).getList();
+		Teacher list = find(-1, -1, where, queryParams).getList().get(0);
 		System.out.println("TeacherDaoImpl--->>findByTeacher()");
 		return list;
 	}

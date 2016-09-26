@@ -1,22 +1,24 @@
 package com.ych.action.stuent;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletInputStream;
+
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.opensymphony.xwork2.ModelDriven;
 import com.ych.action.BaseAction;
-import com.ych.dao.student.StudentDao;
-import com.ych.dao.student.StudentDaoImpl;
 import com.ych.entity.Student;
 import com.ych.model.PageModel;
 import com.ych.util.ConstUtil;
@@ -26,10 +28,10 @@ import com.ych.util.StringUitl;
 
 @Scope("prototype")
 @Controller("studentAction")
-public class StudentAction extends BaseAction implements ModelDriven<Student>{
+public class StudentAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	public Integer id;
 
     public Integer getId() {
 		return id;
@@ -41,10 +43,21 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 	}
 
 
-	private Student student=new Student();
+	public Student student=new Student();
 	
-	@Override
-	public Student getModel() {
+
+	
+
+	/**
+	 * @param student the student to set
+	 */
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+
+
+	public Student getStudent() {
 		// TODO Auto-generated method stub
 		return student;
 	}
@@ -67,9 +80,9 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 	 * @return String 返回类型 
 	 * @throws
 	 */
-	public String getStudent() throws IOException{
+	public String getOneStudent() throws IOException{
 		Map<String ,Object> map=new HashedMap();
-		List<Student> list=studentDao.findByStudent(studentId);
+		Student list=studentDao.findByStudent(studentId);
 		ResultUtils.toJson(ServletActionContext.getResponse(), list);
 		return null;
 	}
@@ -86,31 +99,57 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
  * @throws
  */
     public String addStudent() throws IOException {
+    	
         Map<String ,Object> map=new HashedMap();
         
+        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)ServletActionContext.getRequest().getInputStream(),"UTF-8"));  
+        String line = null;  
+        StringBuilder sb = new StringBuilder();  
+        while((line = br.readLine())!=null){  
+            sb.append(line);  
+        }  
+//        System.out.println(sb.toString());
+        JSONObject json=JSONObject.fromObject(sb.toString());
 		if(student!=null){
-		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH).replaceAll("\\","/");
-		  	   String imgStr=student.getStudentImage();
-		  	   String fileName = StringUitl.getStringTime() + ".jpg";
-			   String temp="/student_"+student.getName();
-			   String imgpath = AbsolutePath+temp+"/"+fileName;
-			   
-				File dir = new File( AbsolutePath+temp);
+			System.out.println("------ww---------");
+		  	   student.setName(json.getString("name"));
+		  	   student.setDepartment(json.getString("department"));
+		  	   student.setAge(json.getInt("age"));
+		  	   student.setSex(json.getInt("sex"));
+		
+			   String temp="student_"+student.getName();
+		  	   String fileName = StringUitl.getStringTime() + ".png";
+		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH+temp);
+		  	   String imgpath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH+temp+"/"+fileName);
+ 	   
+		  	   String imgStr=json.getString("studentImage");
+	
+				File dir = new File(AbsolutePath);
 				if(!dir.exists()){//文件夹不存在
-					dir.mkdir();//创建文件夹
+					if(dir.mkdirs()){
+						System.out.println("创建文件夹成功");
+					};//创建文件夹
 				}
+		
+			   imgpath= imgpath.replaceAll("\\\\", "/");
+
 				
 				String relative = ConstUtil.LOCALPATH+temp+"/"+fileName;
 				   student.setStudentImage(relative);
-				   attendDao.save(student);
-				   map.put("status", "SUCCESS");
 				   try {
 					FileUpload.generateImage(imgStr, imgpath);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					map.put("status", "FALSE");
-				}	   
+					map.put("message", "图片存储失败");
+				}	
+				   System.out.println("数据:"+student.toString());
+				   attendDao.save(student);
+				   map.put("status", "SUCCESS");
+   
+		}else{
+			map.put("message", "参数不正确");
 		}
 		 ResultUtils.toJson(ServletActionContext.getResponse(),map);
     	//studentDao.save(student);
@@ -131,12 +170,84 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
     }
     
     public String deleteStudent() throws IOException{
-        Map<String,Object> map=new HashMap<String, Object>();
+    	
+        Map<String ,Object> map=new HashedMap();
+
+        String AbsolutePath = ServletActionContext.getServletContext().getRealPath("");
+        AbsolutePath=AbsolutePath.replaceAll("\\\\", "/");
+        if(studentId>0){
+       Student student = studentDao.findByStudent(studentId);
+        String path=AbsolutePath+student.getStudentImage();
+        File file=new File(path);
+        if(file.exists()&&file.isFile()){
+        	if(file.delete()){
+        		System.out.println("删除成功");
+        	}
+        }
     	studentDao.delete(student);
+        }
     	map.put("status", "SUCCESS");
+    	 ResultUtils.toJson(ServletActionContext.getResponse(),map);
     	return null;
     }
 
+    public String updateStudent() throws IOException{
+    	Map<String,Object> map=new HashMap<String, Object>();
+    	
+        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)ServletActionContext.getRequest().getInputStream(),"UTF-8"));  
+        String line = null;  
+        StringBuilder sb = new StringBuilder();  
+        while((line = br.readLine())!=null){  
+            sb.append(line);  
+        }  
+        JSONObject json=JSONObject.fromObject(sb.toString());
+        System.out.println(json);
+    	if(!json.isEmpty()){
+    		student.setStudentId(json.getInt("studentId"));
+    		student.setAge(json.getInt("age"));
+    		student.setDepartment(json.getString("department"));
+    		student.setName(json.getString("name"));
+		  	Student outstudent=studentDao.findByStudent(student.getStudentId());
+    		student.setStudentImage(outstudent.getStudentImage());
+    	if(json.containsKey("studentImage")){
+		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH).replaceAll("\\\\","/");
+		        String root = ServletActionContext.getServletContext().getRealPath("").replaceAll("\\\\", "/");
+//		  	   Student outstudent=studentDao.findByStudent(student.getStudentId());
+		  	   String outpath=root+outstudent.getStudentImage();
+		  	   File file=new File(outpath);
+		  	   if(file.exists()&&file.isFile()){
+		  		   file.delete();
+		  	   }
+		  	   
+		  	   
+		  	   String imgStr=json.getString("studentImage");
+		  	   String fileName = StringUitl.getStringTime() + ".jpg";
+			   String temp="student_"+student.getName();
+			   String imgpath = AbsolutePath+temp+"/"+fileName;
+				File dir = new File(AbsolutePath+temp);
+				if(!dir.exists()){//文件夹不存在
+					if(dir.mkdirs()){
+						System.out.println("创建文件夹成功");
+					};//创建文件夹
+				}
+		
+				String relative = ConstUtil.LOCALPATH+temp+"/"+fileName;
+				   student.setStudentImage(relative);
+				   try {
+					FileUpload.generateImage(imgStr, imgpath);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					map.put("status", "FALSE");
+					map.put("message", "图片存储失败");
+				}	
+    	}
+    	studentDao.update(student);
+    	}
+    	 
+    	 ResultUtils.toJson(ServletActionContext.getResponse(),map);
+    	return null;
+    }
 	
 	/*@Override
 	public String add() throws Exception {
@@ -173,7 +284,11 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 		return super.query();
 	}
 		*/
+    
+    
 	private Integer studentId;
+
+
 
 
 	public Integer getStudentId() {
@@ -185,6 +300,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 		this.studentId = studentId;
 	}
 
+	
 	
 
 }

@@ -10,16 +10,19 @@
             <column name="student_grade_id" />
             <generator class="assigned" />
         </id>
-        <property name="studentId" type="java.lang.Integer">
+<!--         <property name="studentId" type="java.lang.Integer">
             <column name="student_id" not-null="true" />
         </property>
         <property name="gradeId" type="java.lang.Integer">
             <column name="grade_id" not-null="true" />
-        </property>
+        </property> -->
         <property name="signnumber" type="java.lang.Integer">
             <column name="signnumber">
                 <comment>签到次数</comment>
             </column>
         </property>
+        <!-- 多对一映射班级 -->
+        <many-to-one name="grade" column="grade_id"/>
+		<many-to-one name="student" column="student_id"/>
     </class>
 </hibernate-mapping>

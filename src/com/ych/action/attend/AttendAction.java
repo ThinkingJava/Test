@@ -2,11 +2,15 @@ package com.ych.action.attend;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.ych.action.BaseAction;
@@ -15,7 +19,8 @@ import com.ych.util.ConstUtil;
 import com.ych.util.FileUpload;
 import com.ych.util.ResultUtils;
 import com.ych.util.StringUitl;
-
+@Scope("prototype")
+@Controller("attendAction")
 public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 
 	private static final long serialVersionUID = 1L;
@@ -81,18 +86,20 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 			}
 			String relative = ConstUtil.NEWPATH+temp+"/"+fileName;
 			   try {
-					FileUpload.generateImage(imgStr, imgpath);
+				   boolean reslut =	FileUpload.generateImage(imgStr, imgpath);
+				   map.put("uploadFile", reslut);
+				   attend.setStudentImage(relative);
+				   attendDao.save(attend);
+		          
+				   map.put("status", "SUCCESS");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					map.put("uploadFile", false);
 					map.put("status", "FALSE");
 					map.put("message", "添加图片失败");
 				}
-		   attend.setStudentImage(relative);
-		   
-		   attendDao.save(attend);
 
-		   map.put("status", "SUCCESS");
 
 	   }
       
@@ -110,9 +117,32 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 	 */
 	
 	public String updateAttend() throws IOException{
-		
+	   	Map<String,Object> map=new HashMap<String, Object>();
+    	if(StringUtils.isNotEmpty(attend.getStudentImage())){
+	  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.NEWPATH).replaceAll("\\","/");
+	  	   String imgStr=attend.getStudentImage();
+	  	   String fileName = StringUitl.getStringTime() + ".jpg";
+		   String temp="/student_"+attend.getAttendId();
+		   String imgpath = AbsolutePath+temp+"/"+fileName;
+		   
+			File dir = new File( AbsolutePath+temp);
+			if(!dir.exists()){//文件夹不存在
+				dir.mkdir();//创建文件夹
+			}
+			
+			String relative = ConstUtil.NEWPATH+temp+"/"+fileName;
+			   attend.setStudentImage(relative);
+			   try {
+				FileUpload.generateImage(imgStr, imgpath);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				map.put("status", "FALSE");
+				map.put("message", "图片存储失败");
+			}	
+    	}
 		attendDao.update(attend);
-		Map<String, Object> map = new HashedMap();
+
 		map.put("status", "SUCCESS");
 		ResultUtils.toJson(ServletActionContext.getResponse(), map);
 		return null;
@@ -134,6 +164,8 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 		ResultUtils.toJson(ServletActionContext.getResponse(), map);
 		  return null;
 	}
+
+
 	
 	
 	private Attend attend=new Attend();
