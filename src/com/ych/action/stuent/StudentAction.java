@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletInputStream;
@@ -13,11 +12,11 @@ import javax.servlet.ServletInputStream;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.opensymphony.xwork2.ModelDriven;
 import com.ych.action.BaseAction;
 import com.ych.entity.Student;
 import com.ych.model.PageModel;
@@ -28,7 +27,7 @@ import com.ych.util.StringUitl;
 
 @Scope("prototype")
 @Controller("studentAction")
-public class StudentAction extends BaseAction {
+public class StudentAction extends BaseAction implements ModelDriven<Student>{
 
 	private static final long serialVersionUID = 1L;
 	public Integer id;
@@ -44,13 +43,7 @@ public class StudentAction extends BaseAction {
 
 
 	public Student student=new Student();
-	
 
-	
-
-	/**
-	 * @param student the student to set
-	 */
 	public void setStudent(Student student) {
 		this.student = student;
 	}
@@ -63,8 +56,10 @@ public class StudentAction extends BaseAction {
 	}
 	
 
-	public String login() throws Exception{
+	public String loginAPI() throws Exception{
 //		String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH).replace("\\", "/");
+		System.out.println("----------"+student.getName());
+		
 		 System.out.println("------"+pageNo+"----"+maxResult);
 		 PageModel<Student> list=studentDao.find(pageNo,maxResult);
 		 ResultUtils.toJson(ServletActionContext.getResponse(), list);  
@@ -80,7 +75,7 @@ public class StudentAction extends BaseAction {
 	 * @return String 返回类型 
 	 * @throws
 	 */
-	public String getOneStudent() throws IOException{
+	public String getOneStudentAPI() throws IOException{
 		Map<String ,Object> map=new HashedMap();
 		Student list=studentDao.findByStudent(studentId);
 		ResultUtils.toJson(ServletActionContext.getResponse(), list);
@@ -98,42 +93,40 @@ public class StudentAction extends BaseAction {
  * @return String 返回类型 
  * @throws
  */
-    public String addStudent() throws IOException {
+    public String addStudentAPI() throws IOException {
     	
         Map<String ,Object> map=new HashedMap();
         
-        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)ServletActionContext.getRequest().getInputStream(),"UTF-8"));  
-        String line = null;  
-        StringBuilder sb = new StringBuilder();  
-        while((line = br.readLine())!=null){  
-            sb.append(line);  
-        }  
-//        System.out.println(sb.toString());
-        JSONObject json=JSONObject.fromObject(sb.toString());
+//        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)ServletActionContext.getRequest().getInputStream(),"UTF-8"));  
+//        String line = null;  
+//        StringBuilder sb = new StringBuilder();  
+//        while((line = br.readLine())!=null){  
+//            sb.append(line);  
+//        }  
+        System.out.println(student.toString());
+   //     JSONObject json=JSONObject.fromObject(sb.toString());
+        
 		if(student!=null){
 			System.out.println("------ww---------");
-		  	   student.setName(json.getString("name"));
-		  	   student.setDepartment(json.getString("department"));
-		  	   student.setAge(json.getInt("age"));
-		  	   student.setSex(json.getInt("sex"));
+//		  	   student.setName(json.getString("name"));
+//		  	   student.setDepartment(json.getString("department"));
+//		  	   student.setAge(json.getInt("age"));
+//		  	   student.setSex(json.getInt("sex"));
 		
 			   String temp="student_"+student.getName();
 		  	   String fileName = StringUitl.getStringTime() + ".png";
 		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH+temp);
 		  	   String imgpath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH+temp+"/"+fileName);
  	   
-		  	   String imgStr=json.getString("studentImage");
-	
+//		  	   String imgStr=json.getString("studentImage");
+		  	   String imgStr=student.getStudentImage();
 				File dir = new File(AbsolutePath);
 				if(!dir.exists()){//文件夹不存在
 					if(dir.mkdirs()){
 						System.out.println("创建文件夹成功");
 					};//创建文件夹
 				}
-		
-			   imgpath= imgpath.replaceAll("\\\\", "/");
-
-				
+			   imgpath= imgpath.replaceAll("\\\\", "/");		
 				String relative = ConstUtil.LOCALPATH+temp+"/"+fileName;
 				   student.setStudentImage(relative);
 				   try {
@@ -156,7 +149,7 @@ public class StudentAction extends BaseAction {
     	return null;
     }
     
-    public String getCourseStudent() throws IOException{
+    public String getCourseStudentAPI() throws IOException{
     	 PageModel<Student> list=studentDao.find(pageNo,maxResult);
 		 ResultUtils.toJson(ServletActionContext.getResponse(), list); 
 		return null;
@@ -164,12 +157,12 @@ public class StudentAction extends BaseAction {
     }
     
     public String getAllStudent() throws IOException{
-    	List<Student> list=studentDao.findAll();
+    	PageModel<Student> list=studentDao.findAll();
     	ResultUtils.toJson(ServletActionContext.getResponse(), list); 
     	return null;
     }
     
-    public String deleteStudent() throws IOException{
+    public String deleteStudentAPI() throws IOException{
     	
         Map<String ,Object> map=new HashedMap();
 
@@ -191,7 +184,7 @@ public class StudentAction extends BaseAction {
     	return null;
     }
 
-    public String updateStudent() throws IOException{
+    public String updateStudentAPI() throws IOException{
     	Map<String,Object> map=new HashMap<String, Object>();
     	
         BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)ServletActionContext.getRequest().getInputStream(),"UTF-8"));  
@@ -249,20 +242,28 @@ public class StudentAction extends BaseAction {
     	return null;
     }
 	
-	/*@Override
-	public String add() throws Exception {
-		// TODO Auto-generated method stub
-		return super.add();
-	}
-
-
+     
 	@Override
-	public String list() throws Exception {
+	public String execute() throws Exception {
 		// TODO Auto-generated method stub
-		return super.list();
+		try{
+		pageModel=studentDao.find(pageNo, maxResult);
+		return SUCCESS;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return ERROR;
 	}
 
+	
 
+	/* (非 Javadoc) 
+	 * <p>Title:edit</p> 
+	 * <p>Description: </p> 
+	 * @return
+	 * @throws Exception 
+	 * @see com.ych.action.BaseAction#edit() 
+	 */ 
 	@Override
 	public String edit() throws Exception {
 		// TODO Auto-generated method stub
@@ -270,24 +271,22 @@ public class StudentAction extends BaseAction {
 	}
 
 
+	/* (非 Javadoc) 
+	 * <p>Title:add</p> 
+	 * <p>Description: </p> 
+	 * @return
+	 * @throws Exception 
+	 * @see com.ych.action.BaseAction#add() 
+	 */ 
 	@Override
-	public String select() throws Exception {
+	public String add() throws Exception {
 		// TODO Auto-generated method stub
-		return super.select();
+		return super.add();
 	}
-	
 
 
-	@Override
-	public String query() throws Exception {
-		// TODO Auto-generated method stub
-		return super.query();
-	}
-		*/
-    
-    
 	private Integer studentId;
-
+	private PageModel<Student> pageModel;
 
 
 
@@ -298,6 +297,22 @@ public class StudentAction extends BaseAction {
 
 	public void setStudentId(Integer studentId) {
 		this.studentId = studentId;
+	}
+
+
+	public PageModel<Student> getPageModel() {
+		return pageModel;
+	}
+
+	public void setPageModel(PageModel<Student> pageModel) {
+		this.pageModel = pageModel;
+	}
+
+
+	@Override
+	public Student getModel() {
+		// TODO Auto-generated method stub
+		return student;
 	}
 
 	

@@ -26,29 +26,51 @@
 		</exception-mapping>
 		</global-exception-mappings>
 		 <!-- studentAction -->
-       	  <action name="login" class="com.ych.action.stuent.StudentAction" method="login">
+       	  <action name="loginAPI" class="com.ych.action.stuent.StudentAction" method="login">
 <!--          <result name="success">/main.jsp</result>
              <result name="error">/login.jsp</result> -->
          </action>
          
-           <action name="addStudent" class="com.ych.action.stuent.StudentAction" method="addStudent">
+           <action name="addStudentAPI" class="com.ych.action.stuent.StudentAction" method="addStudent">
 <!--          <result name="success">/main.jsp</result>
              <result name="error">/login.jsp</result> -->
          </action>
          
-          <action name="deleteStudent" class="com.ych.action.stuent.StudentAction" method="deleteStudent">
+         <action name="deleteStudentAPI" class="com.ych.action.stuent.StudentAction" method="deleteStudentAPI">
          </action>
         
-          <action name="getCourseStudent" class="com.ych.action.stuent.StudentAction" method="getCourseStudent">
+         <action name="getOneStudentAPI" class="com.ych.action.stuent.StudentAction" method="getOneStudentAPI">
+         </action>
+        
+         <action name="getCourseStudentAPI" class="com.ych.action.stuent.StudentAction" method="getCourseStudentAPI">
          </action> 
-        <action name="getAllStudent" class="com.ych.action.stuent.StudentAction" method="getAllStudent">
+         
+         <action name="getAllStudentAPI" class="com.ych.action.stuent.StudentAction" method="getAllStudentAPI">
          </action> 
-       	 <action name="updateStudent" class="com.ych.action.stuent.StudentAction" method="updateStudent">
+         
+       	 <action name="updateStudentAPI" class="com.ych.action.stuent.StudentAction" method="updateStudentAPI">
          </action>   
          
-       	 <action name="getOneGrade" class="com.ych.action.grade.GradeAction" method="getOneGrade">
+       	 <action name="getOneGradeAPI" class="com.ych.action.grade.GradeAction" method="getOneGradeAPI">
+         </action> 
+         
+        <action name="getAllGradeAPI" class="com.ych.action.grade.GradeAction" method="getAllGradeAPI">
          </action>   
-          
+         
+       	<action name="addGradeAPI" class="com.ych.action.grade.GradeAction" method="addGradeAPI">
+        </action>  
+         
+     <!--   	<action name="login" class="com.ych.action.grade.GradeAction" method="addGradeAPI">
+        </action>  --> 
+        <!-- 后台使用 -->
+        <action name="studentInfo" class="com.ych.action.stuent.StudentAction" >
+       	<result name="success">/studentInfo.jsp</result>    
+       	<result name="error">/index.jsp</result>   	
+        </action>  
+        <action name="getOneStudent" class="com.ych.action.stuent.StudentAction" >
+       	<result name="success">/studentInfo.jsp</result>    
+       	<result name="error">/index.jsp</result>   	
+        </action>  
          
  </package>
 </struts>    

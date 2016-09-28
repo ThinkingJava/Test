@@ -78,4 +78,19 @@ public class Attend implements java.io.Serializable {
 		this.studentImage = studentImage;
 	}
 
+	/* (非 Javadoc) 
+	 * <p>Title:toString</p> 
+	 * <p>Description: </p> 
+	 * @return 
+	 * @see java.lang.Object#toString() 
+	 */ 
+	@Override
+	public String toString() {
+		return "Attend [attendId=" + attendId + ", studentId=" + studentId
+				+ ", gradeId=" + gradeId + ", status=" + status
+				+ ", studentImage=" + studentImage + "]";
+	}
+
+	
+	
 }

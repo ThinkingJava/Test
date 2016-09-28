@@ -10,21 +10,36 @@ import org.apache.struts2.ServletActionContext;
 import com.ych.action.BaseAction;
 import com.ych.entity.Grade;
 import com.ych.entity.Teacher;
+import com.ych.model.PageModel;
 import com.ych.util.ResultUtils;
 
 public class TeacherAction extends BaseAction{
 	
 	private static final long serialVersionUID = 1L;
     private Teacher teacher = new Teacher();
+    private Integer teacherId;
 	public Teacher getTeacher() {
 		return teacher;
 	}
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	} 
-    
-    public String getAllTeacher() throws IOException{
-    	List<Teacher> list=teacherDao.findAll();
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
+	}
+	
+	
+
+	@Override
+	public String execute() throws Exception {
+		// TODO Auto-generated method stub
+		return super.execute();
+	}
+	
+	
+	
+	public String getAllTeacher() throws IOException{
+    	PageModel<Teacher> list=teacherDao.findAll();
     	ResultUtils.toJson(ServletActionContext.getResponse(), list);
     	return null;
     }
@@ -67,7 +82,7 @@ public class TeacherAction extends BaseAction{
 	public String deleteGrade() throws IOException{
 		Map<String,String> map = new HashMap<String, String>();
 		try{
-		teacherDao.delete(teacher);
+		teacherDao.deleteById(teacherId);
 		map.put("status", "SUCCESS");
 		map.put("message", "更改成功");
 		}catch(Exception e){

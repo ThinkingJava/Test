@@ -2,6 +2,7 @@ package com.ych.dao;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,11 +40,22 @@ public class DaoSupport<T> implements BaseDao<T>{
 		return hibernateTemplate;
 	}
 	@Override
-	public void delete(Object object) {
-		getTemplate().delete(object);
-			
-		System.out.println("DaoSupport--->>delete()");
+	public void delete(Object obj) {
+		getTemplate().delete(obj);
 	}
+	
+	@Override
+	public void deleteById(Object entityId) {
+		delete( new Object[]{entityId});
+	}
+	@Override
+	public  void delete(Object[] entityIds) {
+	    for(Object id : entityIds) {
+	    	getTemplate().delete(getTemplate().get(this.entityClass, (Serializable)id));
+	         
+	    }
+	}
+
 	/**
 	 * 利用get()方法加载对象，获取对象的详细信息
 	 */
@@ -106,38 +118,44 @@ public class DaoSupport<T> implements BaseDao<T>{
 	
 	
 	@Override
-	public List<T> findAll() {
+	public PageModel<T> findAll() {
 		// TODO Auto-generated method stub
 		return findByCondition(null, null,null);
 	}
 
 	@Override
-	public List<T> findAll(Map<String, String> orderby) {
+	public PageModel<T> findAll(Map<String, String> orderby) {
 		// TODO Auto-generated method stub
 		return findByCondition(null, null,orderby);
 	}
 
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
-	public List<T> findByCondition(final String where, final Object[] queryParams,final Map<String, String> orderby) {
+	public PageModel<T> findByCondition(final String where, final Object[] queryParams,final Map<String, String> orderby) {
 		// TODO Auto-generated method stub
-		getTemplate().execute(new HibernateCallback() {//执行内部方法
-			@Override
-			public Object doInHibernate(Session session)
-					throws HibernateException, SQLException {
-				String hql = new StringBuffer().append("from ")//添加form字段
-								.append(GenericsUtils.getGenericName(entityClass))//添加对象类型
-								.append(" ")//添加空格
-								.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
-								.append(createOrderBy(orderby))//添加排序条件参数
-								.toString();//转化为字符串
-				Query query = session.createQuery(hql);//执行查询
-				setQueryParams(query,queryParams);//为参数赋值
-
-				return query.list();
-			}
-		});
-		return null;
+//		final PageModel<T> pageModel = new PageModel<T>();//实例化分页对象
+//		pageModel.setPageNo(-1);//设置当前页数
+//		pageModel.setPageSize(-1);//设置每页显示记录数
+//		getTemplate().execute(new HibernateCallback() {//执行内部方法
+//			@Override
+//			public Object doInHibernate(Session session)
+//					throws HibernateException, SQLException {
+//				String hql = new StringBuffer().append("from ")//添加form字段
+//								.append(GenericsUtils.getGenericName(entityClass))//添加对象类型
+//								.append(" ")//添加空格
+//								.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
+//								.append(createOrderBy(orderby))//添加排序条件参数
+//								.toString();//转化为字符串
+//				List<T> list = null;//定义List对象
+//				Query query = session.createQuery(hql);//执行查询
+//				setQueryParams(query,queryParams);//为参数赋值
+//				list=query.list();
+//				pageModel.setList(list);
+//				return null;
+//			}
+//		});
+//		return pageModel.getList();
+		return find(-1,-1);
 	}
 	
 	//加载更多
@@ -235,13 +253,22 @@ public class DaoSupport<T> implements BaseDao<T>{
 								.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
 								.append(createOrderBy(orderby))//添加排序条件参数
 								.toString();//转化为字符串
-				System.out.println(hql);
+
 				Query query = session.createQuery(hql);//执行查询
 				setQueryParams(query,queryParams);//为参数赋值
 				List<T> list = null;//定义List对象
 				// 如果maxResult<0，则查询所有
 				if(maxResult < 0 && pageNo < 0){
 					list = query.list();//将查询结果转化为List对象
+					hql = new StringBuffer().append("select count(*) from ")//添加hql语句
+							.append(GenericsUtils.getGenericName(entityClass))//添加对象类型
+							.append(" ")//添加空格
+							.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
+							.toString();//转化为字符串
+				   query = session.createQuery(hql);//执行查询
+				   setQueryParams(query,queryParams);//设置hql参数
+			       int totalRecords = ((Long) query.uniqueResult()).intValue();//类型转换
+			       pageModel.setTotalRecords(totalRecords);//设置总记录数	
 				}else{
 					list = query.setFirstResult(getFirstResult(pageNo, maxResult))//设置分页起始位置
 								.setMaxResults(maxResult)//设置每页显示的记录数
@@ -253,7 +280,6 @@ public class DaoSupport<T> implements BaseDao<T>{
 									.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
 									.toString();//转化为字符串
 					query = session.createQuery(hql);//执行查询
-					System.out.println("---256--"+hql);
 					setQueryParams(query,queryParams);//设置hql参数
 					int totalRecords = ((Long) query.uniqueResult()).intValue();//类型转换
 					pageModel.setTotalRecords(totalRecords);//设置总记录数
@@ -262,7 +288,6 @@ public class DaoSupport<T> implements BaseDao<T>{
 				return null;
 			}
 		});
-		System.out.println("DaoSupport--264->>find()");
 		return pageModel;//返回分页的实体对象
 	}
 	/**

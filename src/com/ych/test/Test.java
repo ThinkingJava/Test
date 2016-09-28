@@ -31,10 +31,10 @@ public class Test {
 	 */ 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-         String url="http://localhost:8080/Test/updateStudent.html";
+         String url="http://localhost:8080/Test/addStudentAPI.html";
          Map<String,Object> map=new HashMap<String, Object>();
-         InputStream is=new FileInputStream(new File("F://image/avatar-08.png"));
-
+//         InputStream is=new FileInputStream(new File("F://image/avatar-08.png"));
+         InputStream is=new FileInputStream(new File("D://image/1169774.gif"));
          ByteArrayOutputStream baos = new ByteArrayOutputStream();  
          int b = 0;  
          while((b = is.read())!=-1){  
@@ -53,23 +53,24 @@ public class Test {
 //         map.put("student", student);
      //    JsonObject jsonobject=new JsonObject();
    //      jsonobject.addProperty("name", "");
-         JSONObject json=new JSONObject();
-         json.put("studentId", "3");
-         json.put("name", "马延浩");
-         json.put("sex", 0);
-         json.put("age", 23);
-         json.put("department", "软件系");
-         json.put("studentImage", imgdata);
-     //    map.put("studentId", "100000001");
-      //   map.put("name", "hello");
-//         map.put("sex", "0");
-//         map.put("age", "30");
-//         map.put("department", "计算机");
-//         map.put("studentImage", imgdata);
+//         JSONObject json=new JSONObject();
+//         json.put("studentId", "3");
+//         json.put("name", "马延浩");
+//         json.put("sex", 0);
+//         json.put("age", 23);
+//         json.put("department", "软件系");
+//         json.put("studentImage", imgdata);
+         map.put("student.studentId", "100000001");
+         map.put("student.name", "hello");
+         map.put("student.sex", "0");
+         map.put("student.age", "30");
+         map.put("student.department", "计算机");
+         map.put("student.studentImage", imgdata);
 //        System.out.println(imgdata);
   //       String resp=Dopost(url,map);  
    //     String resp = Dopost(url,map);
-         String resp = testpost(url,json);
+     //    String resp = testpost(url,json);
+         String resp =  http(url,map);
          System.out.println("----ddd-----"+resp);    
 	}
 	
@@ -135,7 +136,7 @@ public class Test {
 		}
 		data=sb.substring(0, sb.length() - 1);
 		}
-		System.out.println("--==>>"+data);
+//		System.out.println("--==>>"+data);
         out.write(data);      
         out.flush();  
 
@@ -183,8 +184,8 @@ public class Test {
 		}
 		data=sb.substring(0, sb.length() - 1);
 		}
-		System.out.println("send_url:"+url);
-		System.out.println("send_data:"+data);
+//		System.out.println("send_url:"+url);
+//		System.out.println("send_data:"+data);
 		//尝试发送请求
 		try {
 		u = new URL(url);

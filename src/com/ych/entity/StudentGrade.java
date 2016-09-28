@@ -8,8 +8,8 @@ public class StudentGrade implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer studentGradeId;
-	private Student student;
-	private Grade grade;
+	private Integer studentId;
+	private Integer gradeId;
 	private Integer signnumber;
 
 	// Constructors
@@ -19,19 +19,19 @@ public class StudentGrade implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public StudentGrade(Integer studentGradeId, Student student,
-			Grade grade) {
+	public StudentGrade(Integer studentGradeId, Integer studentId,
+			Integer gradeId) {
 		this.studentGradeId = studentGradeId;
-		this.student = student;
-		this.grade = grade;
+		this.studentId = studentId;
+		this.gradeId = gradeId;
 	}
 
 	/** full constructor */
-	public StudentGrade(Integer studentGradeId, Student student,
-			Grade grade, Integer signnumber) {
+	public StudentGrade(Integer studentGradeId, Integer student,
+			Integer gradeId, Integer signnumber) {
 		this.studentGradeId = studentGradeId;
-		this.student = student;
-		this.grade = grade;
+		this.studentId = student;
+		this.gradeId = gradeId;
 		this.signnumber = signnumber;
 	}
 
@@ -53,29 +53,33 @@ public class StudentGrade implements java.io.Serializable {
 	}
 
 	
+	public Integer getStudentId() {
+		return studentId;
+	}
+
+
+	public void setStudentId(Integer studentId) {
+		this.studentId = studentId;
+	}
+
+
+	public Integer getGradeId() {
+		return gradeId;
+	}
+
+
+	public void setGradeId(Integer gradeId) {
+		this.gradeId = gradeId;
+	}
+
 	
-	public Student getStudent() {
-		return student;
-	}
-
-	public void setStudent(Student student) {
-		this.student = student;
-	}
-
-	public Grade getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Grade grade) {
-		this.grade = grade;
-	}
-
 	@Override
 	public String toString() {
-		return "StudentGrade [studentGradeId=" + studentGradeId + ", student="
-				+ student + ", grade=" + grade + ", signnumber=" + signnumber
-				+ "]";
+		return "StudentGrade [studentGradeId=" + studentGradeId
+				+ ", studentId=" + studentId + ", gradeId=" + gradeId
+				+ ", signnumber=" + signnumber + "]";
 	}
+
 
 	
 	

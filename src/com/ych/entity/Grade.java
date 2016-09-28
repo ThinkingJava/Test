@@ -12,12 +12,12 @@ public class Grade implements java.io.Serializable {
 
 	private Integer gradeId;
 	private String name;
-//	private Integer teacherId;
+	private Integer teacherId;
 	private String number;
 	private Integer hour; 
 	
-	private Teacher teacher;
-	private Set<StudentGrade> studetGrade;
+/*	private Teacher teacher;
+	private Set<StudentGrade> studetGrade;*/
 
 	// Constructors
 
@@ -26,18 +26,18 @@ public class Grade implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Grade(Integer gradeId, String name, Teacher teacher) {
+	public Grade(Integer gradeId, String name, Integer teacherId) {
 		this.gradeId = gradeId;
 		this.name = name;
-		this.teacher = teacher;
+		this.teacherId = teacherId;
 	}
 
 	/** full constructor */
-	public Grade(Integer gradeId, String name, Teacher teacher,
+	public Grade(Integer gradeId, String name, Integer teacherId,
 			String number, Integer hour) {
 		this.gradeId = gradeId;
 		this.name = name;
-		this.teacher = teacher;
+		this.teacherId = teacherId;
 		this.number = number;
 		this.hour = hour;
 	}
@@ -79,29 +79,27 @@ public class Grade implements java.io.Serializable {
 		this.hour = hour;
 	}
 
-
-	public Teacher getTeacher() {
-		return teacher;
+	public Integer getTeacherId() {
+		return teacherId;
 	}
 
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
 	}
 
-	public Set<StudentGrade> getStudetGrade() {
-		return studetGrade;
-	}
-
-	public void setStudetGrade(Set<StudentGrade> studetGrade) {
-		this.studetGrade = studetGrade;
-	}
-
+	/* (非 Javadoc) 
+	 * <p>Title:toString</p> 
+	 * <p>Description: </p> 
+	 * @return 
+	 * @see java.lang.Object#toString() 
+	 */ 
 	@Override
 	public String toString() {
-		return "Grade [gradeId=" + gradeId + ", name=" + name + ", number="
-				+ number + ", hour=" + hour + ", teacher=" + teacher
-				+ ", studetGrade=" + studetGrade + "]";
+		return "Grade [gradeId=" + gradeId + ", name=" + name + ", teacherId="
+				+ teacherId + ", number=" + number + ", hour=" + hour + "]";
 	}
+
+
 	
 	
 
