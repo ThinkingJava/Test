@@ -1,5 +1,7 @@
 package com.ych.entity;
 
+import java.sql.Timestamp;
+
 /**
  * Attend entity. @author MyEclipse Persistence Tools
  */
@@ -8,11 +10,12 @@ public class Attend implements java.io.Serializable {
 
 	// Fields
 
-	private Integer attendId;
-	private Integer studentId;
-	private Integer gradeId;
+	private Integer attendid;
+	private Course course;
+	private Student student;
 	private Integer status;
-	private String studentImage;
+	private String imagepath;
+	private Timestamp datatime;
 
 	// Constructors
 
@@ -21,45 +24,45 @@ public class Attend implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Attend(Integer attendId, Integer studentId) {
-		this.attendId = attendId;
-		this.studentId = studentId;
+	public Attend(Course course, Student student) {
+		this.course = course;
+		this.student = student;
 	}
 
 	/** full constructor */
-	public Attend(Integer attendId, Integer studentId, Integer gradeId,
-			Integer status, String studentImage) {
-		this.attendId = attendId;
-		this.studentId = studentId;
-		this.gradeId = gradeId;
+	public Attend(Course course, Student student, Integer status,
+			String imagepath, Timestamp datatime) {
+		this.course = course;
+		this.student = student;
 		this.status = status;
-		this.studentImage = studentImage;
+		this.imagepath = imagepath;
+		this.datatime = datatime;
 	}
 
 	// Property accessors
 
-	public Integer getAttendId() {
-		return this.attendId;
+	public Integer getAttendid() {
+		return this.attendid;
 	}
 
-	public void setAttendId(Integer attendId) {
-		this.attendId = attendId;
+	public void setAttendid(Integer attendid) {
+		this.attendid = attendid;
 	}
 
-	public Integer getStudentId() {
-		return this.studentId;
+	public Course getCourse() {
+		return this.course;
 	}
 
-	public void setStudentId(Integer studentId) {
-		this.studentId = studentId;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
-	public Integer getGradeId() {
-		return this.gradeId;
+	public Student getStudent() {
+		return this.student;
 	}
 
-	public void setGradeId(Integer gradeId) {
-		this.gradeId = gradeId;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
 
 	public Integer getStatus() {
@@ -70,27 +73,20 @@ public class Attend implements java.io.Serializable {
 		this.status = status;
 	}
 
-	public String getStudentImage() {
-		return this.studentImage;
+	public String getImagepath() {
+		return this.imagepath;
 	}
 
-	public void setStudentImage(String studentImage) {
-		this.studentImage = studentImage;
+	public void setImagepath(String imagepath) {
+		this.imagepath = imagepath;
 	}
 
-	/* (非 Javadoc) 
-	 * <p>Title:toString</p> 
-	 * <p>Description: </p> 
-	 * @return 
-	 * @see java.lang.Object#toString() 
-	 */ 
-	@Override
-	public String toString() {
-		return "Attend [attendId=" + attendId + ", studentId=" + studentId
-				+ ", gradeId=" + gradeId + ", status=" + status
-				+ ", studentImage=" + studentImage + "]";
+	public Timestamp getDatatime() {
+		return this.datatime;
 	}
 
-	
-	
+	public void setDatatime(Timestamp datatime) {
+		this.datatime = datatime;
+	}
+
 }

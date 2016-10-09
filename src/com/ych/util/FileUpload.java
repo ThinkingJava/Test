@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import org.apache.tomcat.util.buf.Base64;
 
 import Decoder.BASE64Decoder;
 

@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.ych.dao.attend.AttendDao;
-import com.ych.dao.grade.GradeDao;
+import com.ych.dao.course.CourseDao;
+import com.ych.dao.login.LoginDao;
+import com.ych.dao.major.MajorDao;
+import com.ych.dao.score.ScoreDao;
 import com.ych.dao.student.StudentDao;
 import com.ych.dao.student.StudentDaoImpl;
 import com.ych.dao.teacher.TeacherDao;
@@ -36,9 +39,10 @@ SessionAware, ApplicationAware {
 	public static final String ADD = "add";
 	public static final String SELECT = "select";
 	public static final String QUERY = "query";
+	public static final String LOGINERROR="loginerror";
 	
 	public static final String TEACHER_LOGIN = "teacherLogin";
-	public static final String STUDENT_LOGIN = "studentLogin";
+//	public static final String STUDENT_LOGIN = "studentLogin";
 	
 /*	// 获取用户id
 	// 获取用户对象
@@ -65,8 +69,13 @@ SessionAware, ApplicationAware {
 	@Autowired
 	protected TeacherDao teacherDao;
 	@Autowired
-	protected GradeDao gradeDao;
-	
+	protected CourseDao courseDao;
+	@Autowired
+	protected ScoreDao scoreDao;
+	@Autowired
+	protected MajorDao majorDao;
+	@Autowired
+	protected LoginDao loginDao;
 	
 	
 	// Map类型的request

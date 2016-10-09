@@ -2,13 +2,13 @@ package com.ych.dao;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -29,16 +29,16 @@ import com.ych.util.GenericsUtils;
 @Transactional
 @SuppressWarnings("unchecked")
 public class DaoSupport<T> implements BaseDao<T>{
+
 	// 泛型的类型
-	protected Class<T> entityClass = GenericsUtils.getGenericType(this.getClass());
-	// Hibernate模板
-//	protected HibernateTemplate hibernateTemplate=new HibernateTemplate(new Configuration().configure().buildSessionFactory());
-	@Autowired
-	protected HibernateTemplate hibernateTemplate;
-	
-	public HibernateTemplate getTemplate() {
-		return hibernateTemplate;
-	}
+		protected Class<T> entityClass = GenericsUtils.getGenericType(this.getClass());
+		// Hibernate模板
+		@Autowired
+		protected HibernateTemplate hibernateTemplate;
+		
+		public HibernateTemplate getTemplate() {
+			return hibernateTemplate;
+		}
 	@Override
 	public void delete(Object obj) {
 		getTemplate().delete(obj);

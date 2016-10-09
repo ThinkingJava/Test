@@ -19,6 +19,13 @@ import com.ych.util.ConstUtil;
 import com.ych.util.FileUpload;
 import com.ych.util.ResultUtils;
 import com.ych.util.StringUitl;
+/**
+ * 
+ * ClassName: AttendAction 
+ * @Description: TODO
+ * @author 杨城欢
+ * @date 2016年10月1日
+ */
 @Scope("prototype")
 @Controller("attendAction")
 public class AttendAction extends BaseAction implements ModelDriven<Attend>{
@@ -76,7 +83,7 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 	   
 
 	   if(studentId!=null&&attend!=null){
-		   String imgStr=attend.getStudentImage();
+		   String imgStr=attend.getImagepath();
 		   String temp="/student_"+studentId;
 		   String imgpath = AbsolutePath+temp+"/"+fileName;
 		   
@@ -88,7 +95,7 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 			   try {
 				   boolean reslut =	FileUpload.generateImage(imgStr, imgpath);
 				   map.put("uploadFile", reslut);
-				   attend.setStudentImage(relative);
+				   attend.setImagepath(relative);
 				   attendDao.save(attend);
 		          
 				   map.put("status", "SUCCESS");
@@ -118,11 +125,11 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 	
 	public String updateAttend() throws IOException{
 	   	Map<String,Object> map=new HashMap<String, Object>();
-    	if(StringUtils.isNotEmpty(attend.getStudentImage())){
+    	if(StringUtils.isNotEmpty(attend.getImagepath())){
 	  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.NEWPATH).replaceAll("\\","/");
-	  	   String imgStr=attend.getStudentImage();
+	  	   String imgStr=attend.getImagepath();
 	  	   String fileName = StringUitl.getStringTime() + ".jpg";
-		   String temp="/student_"+attend.getAttendId();
+		   String temp="/student_"+attend.getAttendid();
 		   String imgpath = AbsolutePath+temp+"/"+fileName;
 		   
 			File dir = new File( AbsolutePath+temp);
@@ -131,7 +138,7 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 			}
 			
 			String relative = ConstUtil.NEWPATH+temp+"/"+fileName;
-			   attend.setStudentImage(relative);
+			   attend.setImagepath(relative);
 			   try {
 				FileUpload.generateImage(imgStr, imgpath);
 			} catch (Exception e) {

@@ -1,5 +1,9 @@
 package com.ych.entity;
 
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Student entity. @author MyEclipse Persistence Tools
  */
@@ -7,13 +11,18 @@ package com.ych.entity;
 public class Student implements java.io.Serializable {
 
 	// Fields
-	private static final long serialVersionUID = 1L;
-	private Integer studentId;
-	private String name;
+
+	private String studentid;
+	private Major major;
+	private String studentname;
 	private Integer sex;
-	private Integer age;
-	private String department;
-	private String studentImage;
+	private Timestamp datatime;
+	private Integer score;
+	private String remark;
+	private String imagepath;
+	private Set courses = new HashSet(0);
+	private Set scores = new HashSet(0);
+	private Set attends = new HashSet(0);
 
 	// Constructors
 
@@ -22,36 +31,51 @@ public class Student implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Student(String name) {
-		this.name = name;
+	public Student(Major major, String studentname) {
+		this.major = major;
+		this.studentname = studentname;
 	}
 
 	/** full constructor */
-	public Student(String name, Integer sex, Integer age, String department,
-			String studentImage) {
-		this.name = name;
+	public Student(Major major, String studentname, Integer sex,
+			Timestamp datatime, Integer score, String remark, String imagepath,
+			Set courses, Set scores, Set attends) {
+		this.major = major;
+		this.studentname = studentname;
 		this.sex = sex;
-		this.age = age;
-		this.department = department;
-		this.studentImage = studentImage;
+		this.datatime = datatime;
+		this.score = score;
+		this.remark = remark;
+		this.imagepath = imagepath;
+		this.courses = courses;
+		this.scores = scores;
+		this.attends = attends;
 	}
 
 	// Property accessors
 
-	public Integer getStudentId() {
-		return this.studentId;
+	public String getStudentid() {
+		return this.studentid;
 	}
 
-	public void setStudentId(Integer studentId) {
-		this.studentId = studentId;
+	public void setStudentid(String studentid) {
+		this.studentid = studentid;
 	}
 
-	public String getName() {
-		return this.name;
+	public Major getMajor() {
+		return this.major;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMajor(Major major) {
+		this.major = major;
+	}
+
+	public String getStudentname() {
+		return this.studentname;
+	}
+
+	public void setStudentname(String studentname) {
+		this.studentname = studentname;
 	}
 
 	public Integer getSex() {
@@ -62,37 +86,73 @@ public class Student implements java.io.Serializable {
 		this.sex = sex;
 	}
 
-	public Integer getAge() {
-		return this.age;
+	public Timestamp getDatatime() {
+		return this.datatime;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setDatatime(Timestamp datatime) {
+		this.datatime = datatime;
 	}
 
-	public String getDepartment() {
-		return this.department;
+	public Integer getScore() {
+		return this.score;
 	}
 
-	public void setDepartment(String department) {
-		this.department = department;
+	public void setScore(Integer score) {
+		this.score = score;
 	}
 
-	public String getStudentImage() {
-		return this.studentImage;
+	public String getRemark() {
+		return this.remark;
 	}
 
-	public void setStudentImage(String studentImage) {
-		this.studentImage = studentImage;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
+	public String getImagepath() {
+		return this.imagepath;
+	}
+
+	public void setImagepath(String imagepath) {
+		this.imagepath = imagepath;
+	}
+
+
+
+	public Set getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Set courses) {
+		this.courses = courses;
+	}
+
+	public Set getScores() {
+		return this.scores;
+	}
+
+	public void setScores(Set scores) {
+		this.scores = scores;
+	}
+
+	public Set getAttends() {
+		return this.attends;
+	}
+
+	public void setAttends(Set attends) {
+		this.attends = attends;
+	}
+    
+	
 	@Override
 	public String toString() {
-		return "Student [studentId=" + studentId + ", name=" + name + ", sex="
-				+ sex + ", age=" + age + ", department=" + department
-				+ ", studentImage=" + studentImage + "]";
+		return "Student [studentid=" + studentid + ", major=" + major
+				+ ", studentname=" + studentname + ", sex=" + sex
+				+ ", datatime=" + datatime + ", score=" + score + ", remark="
+				+ remark + ", imagepath=" + imagepath + ", courses=" + courses
+				+ ", scores=" + scores + ", attends=" + attends + "]";
 	}
-	
-	
 
+	
 }

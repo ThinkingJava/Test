@@ -25,30 +25,33 @@
 				exception="com.ych.util.AppException">
 		</exception-mapping>
 		</global-exception-mappings>
+		
+
+       	  
 		 <!-- studentAction -->
-       	  <action name="loginAPI" class="com.ych.action.stuent.StudentAction" method="login">
+       	  <action name="loginAPI" class="com.ych.action.student.StudentAction" method="loginAPI">
 <!--          <result name="success">/main.jsp</result>
              <result name="error">/login.jsp</result> -->
          </action>
          
-           <action name="addStudentAPI" class="com.ych.action.stuent.StudentAction" method="addStudent">
+           <action name="addStudentAPI" class="com.ych.action.student.StudentAction" method="addStudentAPI">
 <!--          <result name="success">/main.jsp</result>
              <result name="error">/login.jsp</result> -->
          </action>
          
-         <action name="deleteStudentAPI" class="com.ych.action.stuent.StudentAction" method="deleteStudentAPI">
+         <action name="deleteStudentAPI" class="com.ych.action.student.StudentAction" method="deleteStudentAPI">
          </action>
         
-         <action name="getOneStudentAPI" class="com.ych.action.stuent.StudentAction" method="getOneStudentAPI">
+         <action name="getOneStudentAPI" class="com.ych.action.student.StudentAction" method="getOneStudentAPI">
          </action>
         
-         <action name="getCourseStudentAPI" class="com.ych.action.stuent.StudentAction" method="getCourseStudentAPI">
+         <action name="getCourseStudentAPI" class="com.ych.action.student.StudentAction" method="getCourseStudentAPI">
          </action> 
          
-         <action name="getAllStudentAPI" class="com.ych.action.stuent.StudentAction" method="getAllStudentAPI">
+         <action name="getAllStudentAPI" class="com.ych.action.student.StudentAction" method="getAllStudentAPI">
          </action> 
          
-       	 <action name="updateStudentAPI" class="com.ych.action.stuent.StudentAction" method="updateStudentAPI">
+       	 <action name="updateStudentAPI" class="com.ych.action.student.StudentAction" method="updateStudentAPI">
          </action>   
          
        	 <action name="getOneGradeAPI" class="com.ych.action.grade.GradeAction" method="getOneGradeAPI">
@@ -63,14 +66,35 @@
      <!--   	<action name="login" class="com.ych.action.grade.GradeAction" method="addGradeAPI">
         </action>  --> 
         <!-- 后台使用 -->
-        <action name="studentInfo" class="com.ych.action.stuent.StudentAction" >
+        <action name="studentInfo" class="com.ych.action.student.StudentAction" >
        	<result name="success">/studentInfo.jsp</result>    
        	<result name="error">/index.jsp</result>   	
         </action>  
-        <action name="getOneStudent" class="com.ych.action.stuent.StudentAction" >
+        <action name="getOneStudent" class="com.ych.action.student.StudentAction" >
        	<result name="success">/studentInfo.jsp</result>    
        	<result name="error">/index.jsp</result>   	
         </action>  
+        <action name="loginteacher" class="com.ych.action.login.LoginAction" method="login">
+       	<result name="success">/WEB-INF/pages/index.jsp</result>  
+       	<result name="validateErr">/WEB-INF/pages/login.jsp</result>
+       	<result name="loginerror">/WEB-INF/pages/login.jsp</result>   	
+        </action>  
+        
+        <action name="personal" class="com.ych.action.teacher.TeacherAction" method="teacherMessage">
+       	<result name="success">/WEB-INF/pages/personal.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login.jsp</result> 
+        </action>  
+        
+         <action name="updateTeacherMessage" class="com.ych.action.teacher.TeacherAction" method="updateTeacherMessage">
+       	<result name="success">/WEB-INF/pages/personal.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login.jsp</result> 
+       	  <result name="input">/WEB-INF/pages/personal.jsp</result>
+        </action>  
+        
+<!--         <action name="updateTeacher" class="com.ych.action.teacher.TeacherAction" method="updateTeacher">
+       	<result name="success">/WEB-INF/pages/index.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login.jsp</result> 
+        </action>   -->
          
  </package>
 </struts>    

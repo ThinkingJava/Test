@@ -15,9 +15,9 @@ public class StudentDaoImpl extends DaoSupport<Student> implements StudentDao {
 
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
-	public Student findByStudent(int studentId) {
+	public Student findByStudent(String studentId) {
 		// TODO Auto-generated method stub
-		String where = "where student_Id = ?";
+		String where = "where studentid = ?";
 		Object[] queryParams = {studentId};
 		System.out.println("---"+studentId);
 		List<Student> list = find(-1, -1, where, queryParams).getList();
