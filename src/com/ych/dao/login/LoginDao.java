@@ -8,4 +8,5 @@ import com.ych.entity.Teacher;
 public interface LoginDao extends BaseDao<Login>{
 	public Teacher login(String username, String password);
 	public boolean isUnique(String username);
+	public Login findByLogin(String teacherid);
 }

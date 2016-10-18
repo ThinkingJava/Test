@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>无线点餐 后台登陆</title>
+    <title>学生管理 后台登陆</title>
     
 
 	
@@ -75,13 +75,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <ul class="nav pull-right">
                     
                 </ul>
-                <a class="brand" href="index.html"><span class="first">无线点餐</span> <span class="second">系统</span></a>
+                <a class="brand" href="index.html"><span class="first">学生管理</span> <span class="second">系统</span></a>
         </div>
     </div>
     <div class="container" style="margin-top:100px" ">
       <form class="form-signin" action="/Test/loginteacher.html" method="post">
          <div class="page-header" >
-          <h2>无线点餐系统</h2>
+          <h2>学生管理系统</h2>
         </div>
         <input type="text" class="input-block-level" placeholder="用户名"  name="login.name">
         <input type="password" class="input-block-level" placeholder="密码"  name="login.password">

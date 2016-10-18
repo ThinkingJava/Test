@@ -19,7 +19,6 @@ public class StudentDaoImpl extends DaoSupport<Student> implements StudentDao {
 		// TODO Auto-generated method stub
 		String where = "where studentid = ?";
 		Object[] queryParams = {studentId};
-		System.out.println("---"+studentId);
 		List<Student> list = find(-1, -1, where, queryParams).getList();
 		Student student=null;
 		if(list.size()>0){

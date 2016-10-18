@@ -17,7 +17,7 @@ public class AttendDaoImpl  extends DaoSupport<Attend> implements AttendDao{
 	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
 	public List<Attend> findByAttend(int attendId) {
 		// TODO Auto-generated method stub
-		String where = "where attend.attendId = ?";
+		String where = "where attendid = ?";
 		Object[] queryParams = {attendId};
 		List<Attend> list = find(-1, -1, where, queryParams).getList();
 		System.out.println("AttendDaoImpl--->>findByCustomer()");

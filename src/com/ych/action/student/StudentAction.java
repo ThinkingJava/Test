@@ -3,6 +3,8 @@ package com.ych.action.student;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
@@ -17,6 +19,7 @@ import javax.servlet.ServletInputStream;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang.xwork.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -44,35 +47,39 @@ import com.ych.util.StringUitl;
 public class StudentAction extends BaseAction implements ModelDriven<Student>{
 
 	private static final long serialVersionUID = 1L;
-	public Integer id;
-
-    public Integer getId() {
-		return id;
-	}
-
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 
 	public Student student=new Student();
 
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-
-
-
+	
 	public Student getStudent() {
-		// TODO Auto-generated method stub
 		return student;
 	}
 	
+	private File photo;
+
+	public File getPhoto() {
+		return photo;
+	}
+	public void setPhoto(File photo) {
+		this.photo = photo;
+	}
+	
+	private List<Major> major;
+  
+	public List<Major> getMajor() {
+		return major;
+	}
+
+	public void setMajor(List<Major> major) {
+		this.major = major;
+	}
 
 	@SuppressWarnings("unchecked")
 	public String loginAPI() throws Exception{
-//		String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH).replace("\\", "/");
+//		String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH).replace("\\", "/");
          Map<String,Object> map=new HashMap<String,Object>();
 		 PageModel<Student> list=studentDao.find(pageNo,maxResult);
 		 Map<String,Object> li=new HashMap<String,Object>();
@@ -113,8 +120,27 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 	 */
 	public String getOneStudentAPI() throws IOException{
 		Map<String ,Object> map=new HashedMap();
-		Student list=studentDao.findByStudent(student.getStudentid());
-		ResultUtils.toJson(ServletActionContext.getResponse(), list);
+		try{
+		Student tempStudent=studentDao.findByStudent(student.getStudentid());
+		 Map<String,Object> tempMap=new HashMap<String, Object>();
+		    tempMap.put("studentid", tempStudent.getStudentid());
+			tempMap.put("studentname", tempStudent.getStudentname());
+			tempMap.put("major", tempStudent.getMajor().toJSONObject());
+			tempMap.put("sex", tempStudent.getSex());
+			tempMap.put("score", tempStudent.getScore());
+			tempMap.put("imagepath", tempStudent.getImagepath());
+			tempMap.put("datatime", tempStudent.getDatatime());
+			tempMap.put("remark", tempStudent.getRemark());
+		map.put("student", tempMap);
+		map.put("status", "SUCCESS");
+		map.put("message", "查找数据成功");
+		}catch(Exception e){
+		e.printStackTrace();
+		map.put("status", "FALSE");
+		map.put("message", "查找数据失败");
+		}
+		
+		ResultUtils.toJson(ServletActionContext.getResponse(), map);
 		return null;
 	}
 	
@@ -139,7 +165,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 //        while((line = br.readLine())!=null){  
 //            sb.append(line);  
 //        }  
-        System.out.println(student.toString());
+//        System.out.println(student.toString());
    //     JSONObject json=JSONObject.fromObject(sb.toString());
         
 		if(student!=null){
@@ -151,10 +177,9 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 		
 			   String temp="student_"+student.getStudentname();
 		  	   String fileName = StringUitl.getStringTime() + ".png";
-		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH+temp);
-		  	   String imgpath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH+temp+"/"+fileName);
+		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH+temp);
+		  	   String imgpath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH+temp+"/"+fileName);
  	   
-//		  	   String imgStr=json.getString("studentImage");
 		  	   String imgStr=student.getImagepath();
 				File dir = new File(AbsolutePath);
 				if(!dir.exists()){//文件夹不存在
@@ -163,7 +188,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 					};//创建文件夹
 				}
 			   imgpath= imgpath.replaceAll("\\\\", "/");		
-				String relative = ConstUtil.LOCALPATH+temp+"/"+fileName;
+				String relative = ConstUtil.LOCALSTUDENTPATH+temp+"/"+fileName;
 				   student.setImagepath(relative);
 				   try {
 					FileUpload.generateImage(imgStr, imgpath);
@@ -173,7 +198,6 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 					map.put("status", "FALSE");
 					map.put("message", "图片存储失败");
 				}	
-				   System.out.println("数据:"+student.toString());
 				   attendDao.save(student);
 				   map.put("status", "SUCCESS");
    
@@ -192,9 +216,34 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
     	
     }
     
-    public String getAllStudent() throws IOException{
-    	PageModel<Student> list=studentDao.findAll();
-    	ResultUtils.toJson(ServletActionContext.getResponse(), list); 
+    public String getAllStudentAPI() throws IOException{
+    	Map<String,Object> map=new HashMap<String,Object>();
+    	List<Map<String,Object>> center=new ArrayList<Map<String,Object>>();
+    	try{
+    	PageModel<Student> pagemodel=studentDao.findAll();
+        Iterator<Student> it= pagemodel.getList().iterator();
+        while(it.hasNext()){
+        	Student tempStudent=it.next();
+    	Map<String,Object> tempMap=new HashMap<String, Object>();
+	    tempMap.put("studentid", tempStudent.getStudentid());
+		tempMap.put("studentname", tempStudent.getStudentname());
+		tempMap.put("major", tempStudent.getMajor().toJSONObject());
+		tempMap.put("sex", tempStudent.getSex());
+		tempMap.put("score", tempStudent.getScore());
+		tempMap.put("imagepath", tempStudent.getImagepath());
+		tempMap.put("datatime", tempStudent.getDatatime());
+		tempMap.put("remark", tempStudent.getRemark());
+		center.add(tempMap);
+        }
+        map.put("student", center);
+	    map.put("status", "SUCCESS");
+	    map.put("message", "数据库查询正确");
+    	}catch(Exception e){
+    	e.printStackTrace();
+    	map.put("status", "FALSE");
+    	map.put("message", "数据库查询失败");
+    	}
+    	ResultUtils.toJson(ServletActionContext.getResponse(), map); 
     	return null;
     }
     
@@ -204,7 +253,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 
         String AbsolutePath = ServletActionContext.getServletContext().getRealPath("");
         AbsolutePath=AbsolutePath.replaceAll("\\\\", "/");
-        if(studentId>0){
+        if(student.getStudentid()!=null){
        Student stu = studentDao.findByStudent(student.getStudentid());
         String path=AbsolutePath+stu.getImagepath();
         File file=new File(path);
@@ -241,7 +290,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 		  	Student outstudent=studentDao.findByStudent(student.getStudentid());
     		student.setImagepath(outstudent.getImagepath());
     	if(json.containsKey("studentImage")){
-		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALPATH).replaceAll("\\\\","/");
+		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH).replaceAll("\\\\","/");
 		       String root = ServletActionContext.getServletContext().getRealPath("").replaceAll("\\\\", "/");
 		  	   String outpath=root+outstudent.getImagepath();
 		  	   File file=new File(outpath);
@@ -261,7 +310,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 					};//创建文件夹
 				}
 		
-				String relative = ConstUtil.LOCALPATH+temp+"/"+fileName;
+				String relative = ConstUtil.LOCALSTUDENTPATH+temp+"/"+fileName;
 				   student.setImagepath(relative);
 				   try {
 					FileUpload.generateImage(imgStr, imgpath);
@@ -303,22 +352,33 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 		// TODO Auto-generated method stub
 		return super.add();
 	}
+	
+	public String studentMessage(){
+		System.out.println("--------------------");
+		try{
+			if(org.apache.commons.lang.StringUtils.isNotEmpty(student.getStudentid())){
+				student=studentDao.findByStudent(student.getStudentid());
+				major=majorDao.findAll().getList();
+/*				for(Major m:major){
+					System.out.println(m.getMajorid()+":"+m.getMajorname());
+				}*/
+				map.clear();
+				map.put("student", student);
+				map.put("major", major);
+			}else{
+				return ERROR;
+			}
+	
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
+		}
+		return SUCCESS;
+	}
 
 
-	private Integer studentId;
+
 	private PageModel<Student> pageModel;
-
-
-
-	public Integer getStudentId() {
-		return studentId;
-	}
-
-
-	public void setStudentId(Integer studentId) {
-		this.studentId = studentId;
-	}
-
 
 	public PageModel<Student> getPageModel() {
 		return pageModel;
@@ -335,7 +395,83 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 		return student;
 	}
 
+	public String updateStudent(){
+		map.clear();
+		try{
+			if(photo!=null){
+				
+				 String temp="student_"+student.getStudentname();
+			  	   String fileName = StringUitl.getStringTime() + ".png";
+			  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH+temp+"/");
+		
+				FileInputStream fis = null;//输入流
+				FileOutputStream fos = null;//输出流
+				try {
+					fis = new FileInputStream(photo);//根据上传文件创建InputStream实例
+					File file= new File(AbsolutePath);
+				    if(!file.exists()){
+				    	file.mkdirs();
+				    }
+					fos = new FileOutputStream(new File(AbsolutePath,fileName)); //创建写入服务器地址的输出流对象
+					byte[] bs = new byte[1024 * 4]; //创建字节数组实例
+					int len = -1;
+					while((len = fis.read(bs)) != -1){//循环读取文件
+						fos.write(bs, 0, len);//向指定的文件夹中写数据
+					}
+			    if(StringUtils.isNotEmpty(student.getImagepath())){
+			    	String outpath= ServletActionContext.getServletContext().getRealPath("").replace("\\", "/")+student.getImagepath();
+			    	File outfile=new File(outpath);
+			    	if(outfile.isFile()){
+			    		outfile.delete();
+			    	}
+			    }
+				student.setImagepath(ConstUtil.LOCALSTUDENTPATH+temp+"/"+fileName);
+				}catch (Exception e) {
+					e.printStackTrace();
+					return ERROR;
+				}finally{
+					fos.flush();
+					fos.close();
+					fis.close();
+				}
+				}
+			Student temp=studentDao.findByStudent(student.getStudentid()); //获取原来数据   关联表数据不能为空，如果为空会出现删除关联表数据
+			student.setCourses(temp.getCourses());  //填充原来数据
+			student.setAttends(temp.getAttends());
+			student.setDatatime(temp.getDatatime());
+			student.setScores(temp.getScores());
+			studentDao.saveOrUpdate(student);
+			
+			major=majorDao.findAll().getList();
+			map.clear();
+			map.put("student", student);
+			map.put("major", major);
+			map.put("status", "1");
+			return SUCCESS;
+			}catch(Exception e){
+               e.printStackTrace();
+               
+			}
+	        return ERROR;
+	}
 	
+	
+	
+	Map<String,Object> map=new HashMap<String,Object>();;
+
+	/**
+	 * @return the map
+	 */
+	public Map<String, Object> getMap() {
+		return map;
+	}
+
+	/**
+	 * @param map the map to set
+	 */
+	public void setMap(Map<String, Object> map) {
+		this.map = map;
+	}
 	
 
 }

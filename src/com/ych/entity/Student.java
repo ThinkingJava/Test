@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.json.JSONObject;
+
 /**
  * Student entity. @author MyEclipse Persistence Tools
  */
@@ -154,5 +156,14 @@ public class Student implements java.io.Serializable {
 				+ ", scores=" + scores + ", attends=" + attends + "]";
 	}
 
-	
+	public JSONObject toJSONObject() {
+		JSONObject object = new JSONObject();
+		object.put("studentid", studentid);
+		object.put("major", major.toJSONObject());
+		object.put("studentname", studentname);
+		object.put("sex", sex);
+		object.put("datatime", datatime);
+		object.put("imagepath", imagepath);
+		return object;
+	}
 }

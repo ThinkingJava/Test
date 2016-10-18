@@ -1,6 +1,7 @@
 package com.ych.model;
 
 import java.util.List;
+
 /**
  * 分页组件
  * @author Li Yongqiang
@@ -11,6 +12,7 @@ public class PageModel<T> {
 	private List<T> list;//结果集
 	private int pageNo;//当前页
 	private int pageSize;//每页显示多少条 
+	
 	/**
 	 * 取得第一页
 	 * @return 第一页

@@ -21,6 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <jsp:forward page="/WEB-INF/pages/login.jsp"></jsp:forward>
+    <jsp:forward page="/WEB-INF/pages/login/login.jsp"></jsp:forward>
   </body>
 </html>

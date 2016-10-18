@@ -3,6 +3,8 @@ package com.ych.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.json.JSONObject;
+
 /**
  * Teacher entity. @author MyEclipse Persistence Tools
  */
@@ -109,4 +111,39 @@ public class Teacher implements java.io.Serializable {
 		this.login = login;
 	}
 
+	/* (非 Javadoc) 
+	 * <p>Title:toString</p> 
+	 * <p>Description: </p> 
+	 * @return 
+	 * @see java.lang.Object#toString() 
+	 */ 
+	@Override
+	public String toString() {
+		
+			JSONObject object = new JSONObject();
+	        object.put("teacherid", teacherid);
+	        object.put("teachername", teachername);
+	        object.put("sex", sex);
+	        object.put("department", department);
+	        object.put("imagepath", imagepath);
+
+			return object.toString();
+
+	}
+
+
+	public JSONObject toJSONObject() {
+		
+			JSONObject object = new JSONObject();
+	        object.put("teacherid", teacherid);
+	        object.put("teachername", teachername);
+	        object.put("sex", sex);
+	        object.put("department", department);
+	        object.put("imagepath", imagepath);
+
+			return object;
+
+	}
+	
+	
 }

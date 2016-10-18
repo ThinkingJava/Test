@@ -6,7 +6,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="en">
   <head>
-    <title>无线点餐后台</title>
+    <title>学生管理后台</title>
     
 
     <link rel="stylesheet" type="text/css" href="/Test/bootstrap/css/bootstrap.css">
@@ -61,7 +61,7 @@
                     </li>
                     
                 </ul>
-                <a class="brand" href="/Test/home.do?flag=home"><span class="first">无线点餐</span> <span class="second">后台</span></a>
+                <a class="brand" href="/Test/home.do?flag=home"><span class="first">学生管理</span> <span class="second">后台</span></a>
         </div>
     </div>
     
@@ -79,16 +79,16 @@
             <li><a href="/Test/personal.html">个人中心</a></li>
         </ul>
 
-        <a href="#table-menu" class="nav-header" data-toggle="collapse"><i class="icon-table"></i>餐桌
+        <a href="#table-menu" class="nav-header" data-toggle="collapse"><i class="icon-table"></i>班级
         </a>
         <ul id="table-menu" class="nav nav-list collapse">
-            <li ><a href="/Test/table.do?flag=table">餐桌管理</a></li>
+            <li ><a href="/Test/courseMessage.html">班级管理</a></li>
         </ul>
 
-        <a href="#menu-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-reorder"></i>菜谱
+        <a href="#menu-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-reorder"></i>考勤
          </a>
         <ul id="menu-menu" class="nav nav-list collapse">
-            <li ><a href="/Test/menu.do?flag=menu">菜谱管理</a></li>
+            <li ><a href="/Test/attendCourse.html">考勤管理</a></li>
         </ul>
 
         <a href="#order-menu" class="nav-header" data-toggle="collapse"><i class="icon-th-large"></i>订单</a>

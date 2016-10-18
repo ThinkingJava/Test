@@ -106,7 +106,8 @@ public class DaoSupport<T> implements BaseDao<T>{
 	}
 	@Override
 	public void saveOrUpdate(Object obj) {
-		getTemplate().saveOrUpdate(obj);
+	//	getTemplate().saveOrUpdate(obj);
+		getTemplate().merge(obj);
 	}
 	/**
 	 * 利用update()方法修改对象的详细信息
@@ -114,6 +115,7 @@ public class DaoSupport<T> implements BaseDao<T>{
 	@Override
 	public void update(Object obj) {
 		getTemplate().update(obj);
+	//	getTemplate().merge(obj);
 	}
 	
 	

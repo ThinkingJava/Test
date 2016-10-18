@@ -54,13 +54,16 @@
        	 <action name="updateStudentAPI" class="com.ych.action.student.StudentAction" method="updateStudentAPI">
          </action>   
          
-       	 <action name="getOneGradeAPI" class="com.ych.action.grade.GradeAction" method="getOneGradeAPI">
+       	 <action name="getOneCourseAPI" class="com.ych.action.course.CourseAction" method="getOneCourseAPI">
          </action> 
          
-        <action name="getAllGradeAPI" class="com.ych.action.grade.GradeAction" method="getAllGradeAPI">
+        <action name="getAllCourseAPI" class="com.ych.action.course.CourseAction" method="getAllCourseAPI">
          </action>   
          
-       	<action name="addGradeAPI" class="com.ych.action.grade.GradeAction" method="addGradeAPI">
+       	<action name="addCourseAPI" class="com.ych.action.course.CourseAction" method="addCourseAPI">
+        </action>  
+        
+       	<action name="getOneCourseStudentAPI" class="com.ych.action.course.CourseAction" method="getOneCourseStudentAPI">
         </action>  
          
      <!--   	<action name="login" class="com.ych.action.grade.GradeAction" method="addGradeAPI">
@@ -73,27 +76,98 @@
         <action name="getOneStudent" class="com.ych.action.student.StudentAction" >
        	<result name="success">/studentInfo.jsp</result>    
        	<result name="error">/index.jsp</result>   	
-        </action>  
+        </action> 
+         
         <action name="loginteacher" class="com.ych.action.login.LoginAction" method="login">
        	<result name="success">/WEB-INF/pages/index.jsp</result>  
-       	<result name="validateErr">/WEB-INF/pages/login.jsp</result>
-       	<result name="loginerror">/WEB-INF/pages/login.jsp</result>   	
+       	<result name="validateErr">/WEB-INF/pages/login/login.jsp</result>
+       	<result name="loginerror">/WEB-INF/pages/login/login.jsp</result>   	
         </action>  
         
         <action name="personal" class="com.ych.action.teacher.TeacherAction" method="teacherMessage">
-       	<result name="success">/WEB-INF/pages/personal.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login.jsp</result> 
+       	<result name="success">/WEB-INF/pages/teacher/personal.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
         </action>  
         
          <action name="updateTeacherMessage" class="com.ych.action.teacher.TeacherAction" method="updateTeacherMessage">
-       	<result name="success">/WEB-INF/pages/personal.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login.jsp</result> 
-       	  <result name="input">/WEB-INF/pages/personal.jsp</result>
+       	<result name="success">/WEB-INF/pages/teacher/personal.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	  <result name="input">/WEB-INF/pages/teacher/personal.jsp</result>
+        </action> 
+        
+        <action name="updatePassword" class="com.ych.action.login.LoginAction" method="updatePassword">
+       	<result name="success">/WEB-INF/pages/teacher/personal.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>   
+        
+        <action name="courseMessage" class="com.ych.action.course.CourseAction" method="courseMessage">
+       	<result name="success">/WEB-INF/pages/course/courseMessage.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>   
+        
+        <action name="teacherCourse" class="com.ych.action.course.CourseAction" method="teacherCourse">
+       	<result name="success">/WEB-INF/pages/course/teacherCourse.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action> 
+        
+        <action name="studentMessage" class="com.ych.action.student.StudentAction" method="studentMessage">
+       	<result name="success">/WEB-INF/pages/student/studentMessage.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
         </action>  
         
-<!--         <action name="updateTeacher" class="com.ych.action.teacher.TeacherAction" method="updateTeacher">
+        <action name="updateStudent" class="com.ych.action.student.StudentAction" method="updateStudent">
+       	<result name="success">/WEB-INF/pages/student/studentMessage.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action> 
+        
+       <action name="deleteCourseStudent" class="com.ych.action.course.CourseAction" method="deleteCourseStudent">
+       	<result name="success">/WEB-INF/pages/course/teacherCourse.jsp</result>    
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result>   	
+        </action> 
+        
+        <action name="attendMessage" class="com.ych.action.attend.AttendAction" method="attendMessage">
+       	<result name="success">/WEB-INF/pages/attend/attendMessage.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action> 
+        
+       <action name="attendCourse" class="com.ych.action.course.CourseAction" method="attendCourse">
+       	<result name="success">/WEB-INF/pages/attend/attendCourse.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>
+        
+       <action name="addCourseStudentHead" class="com.ych.action.course.CourseAction" method="addCourseStudentHead">
+       	<result name="success">/WEB-INF/pages/course/addCourseStudent.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>
+        
+         <action name="addCourseStudent" class="com.ych.action.course.CourseAction" method="addCourseStudent">
+       	<result name="success">/WEB-INF/pages/course/addCourseStudent.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>
+        
+         <action name="addAttendCourse" class="com.ych.action.attend.AttendAction" method="addAttendCourse">
+       	<result name="success">/WEB-INF/pages/attend/addAttend.jsp</result>  
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>
+        
+       <action name="addAttend" class="com.ych.action.attend.AttendAction" method="addAttend">
+       <result name="success">/WEB-INF/pages/attend/attendCourse.jsp</result>  
+       <result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>
+        
+         <action name="updateAttendStatus" class="com.ych.action.attend.AttendAction" method="updateAttendStatus">
+<!--        <result name="success">/WEB-INF/pages/attend/attendMessage.jsp</result>  
+       <result name="error">/WEB-INF/pages/login/login.jsp</result>  -->
+        </action>
+        
+         <action name="deleteAttend" class="com.ych.action.attend.AttendAction" method="deleteAttend">
+          <result name="success">/WEB-INF/pages/attend/attendMessage.jsp</result>  
+         <result name="error">/WEB-INF/pages/login/login.jsp</result> 
+        </action>
+        
+<!--     <action name="updateTeacher" class="com.ych.action.teacher.TeacherAction" method="updateTeacher">
        	<result name="success">/WEB-INF/pages/index.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
         </action>   -->
          
  </package>

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ych.dao.DaoSupport;
+import com.ych.entity.Course;
 import com.ych.entity.Login;
 import com.ych.entity.Teacher;
 @Repository("loginDao")
@@ -40,4 +41,14 @@ public class LoginDaoImpl extends DaoSupport<Login> implements LoginDao{
 		return false;
 	}
 
+	@Override
+	public Login findByLogin(String teacherid) {
+		// TODO Auto-generated method stub
+		String where ="where teacherid = ?";
+	    Object []queryParams ={teacherid};
+	    Login list=find(-1,-1,where,queryParams).getList().get(0);
+		return list;
+	}
+
+	
 }

@@ -3,6 +3,8 @@ package com.ych.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.json.JSONObject;
+
 /**
  * Major entity. @author MyEclipse Persistence Tools
  */
@@ -76,6 +78,15 @@ public class Major implements java.io.Serializable {
 
 	public void setStudents(Set students) {
 		this.students = students;
+	}
+	
+	public JSONObject toJSONObject() {
+		JSONObject object = new JSONObject();
+		object.put("studentid", majorid);
+		object.put("majorname", majorname);
+		object.put("teacher", teacher.toJSONObject());
+		object.put("number", number);
+		return object;
 	}
 
 }

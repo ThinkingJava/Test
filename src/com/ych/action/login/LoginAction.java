@@ -1,7 +1,10 @@
 package com.ych.action.login;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ public class LoginAction extends BaseAction{
 
 	private Login login=new Login();
 	private String validateCode;
+	private String password;
 
 	public Login getLogin() {
 		return login;
@@ -34,6 +38,15 @@ public class LoginAction extends BaseAction{
 
 	public void setValidateCode(String validateCode) {
 		this.validateCode = validateCode;
+	}
+	
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String login() throws IOException{
@@ -53,4 +66,34 @@ public class LoginAction extends BaseAction{
 		}
 		
 	}
+	
+	public String updatePassword() {
+		
+		if(StringUtils.isNotEmpty(login.getTeacherid())){
+			
+	   Login outdata= loginDao.findByLogin(login.getTeacherid());
+	   login.setName(outdata.getName());
+		try{
+			System.out.println("login"+login.getTeacherid()+":"+login.getName()+":"+login.getPassword());
+			loginDao.saveOrUpdate(login);
+			map.put("status", "1");
+		}catch(Exception e){
+			e.printStackTrace();
+			return ERROR;
+		}
+		}
+		return SUCCESS;
+	}
+	
+	Map<String,String> map=new HashMap<String,String>();
+
+	public Map<String, String> getMap() {
+		return map;
+	}
+
+	public void setMap(Map<String, String> map) {
+		this.map = map;
+	}
+	
+	
 }

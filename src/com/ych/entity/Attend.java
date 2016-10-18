@@ -2,6 +2,8 @@ package com.ych.entity;
 
 import java.sql.Timestamp;
 
+import net.sf.json.JSONObject;
+
 /**
  * Attend entity. @author MyEclipse Persistence Tools
  */
@@ -88,5 +90,18 @@ public class Attend implements java.io.Serializable {
 	public void setDatatime(Timestamp datatime) {
 		this.datatime = datatime;
 	}
+	
+	public JSONObject toJSONObject() {
+		
+		JSONObject object = new JSONObject();
+        object.put("attendid", attendid);
+        object.put("course", course.toJSONObject());
+        object.put("student", student.toJSONObject());
+        object.put("status", status);
+        object.put("imagepath", imagepath);
+        object.put("datatime", datatime);
+		return object;
+
+}
 
 }
