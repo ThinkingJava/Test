@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+<package name="default" extends="struts-default">
+ 		 <global-results>
+             <result name="login">/login.jsp</result>
+       	  </global-results>
+       	  <global-exception-mappings>
+		<exception-mapping result="error"
+				exception="com.ych.util.AppException">
+		</exception-mapping>
+		</global-exception-mappings>
+       	  <action name="login" class="com.ych.action.stuent.StudentAction" method="login">
+<!--          <result name="success">/main.jsp</result>
+             <result name="error">/login.jsp</result> -->
+         </action>
+       	  
+ </package>
+</struts>    
