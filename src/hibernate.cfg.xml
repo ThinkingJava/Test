@@ -13,7 +13,11 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="myeclipse.connection.profile">mysqldata</property>
     
+<<<<<<< HEAD
         		<!-- 打印SQL语句 -->
+=======
+        <!-- 打印SQL语句 -->
+>>>>>>> eb63eded9899513af9538a187ddf701ead10b135
 		<property name="hibernate.show_sql">true</property>
 		<!-- 不格式化SQL语句 -->
 		<property name="hibernate.format_sql">false</property>
@@ -31,6 +35,10 @@
 		<property name="hibernate.c3p0.acquire_increment">2</property>
 		<property name="hibernate.c3p0.validate">true</property>
 		
+<<<<<<< HEAD
+=======
+		<!-- 映射文件 -->
+>>>>>>> eb63eded9899513af9538a187ddf701ead10b135
 		<mapping resource="com/ych/entity/Student.hbm.xml" />
 		<mapping resource="com/ych/entity/Teacher.hbm.xml" />
 		<mapping resource="com/ych/entity/Grade.hbm.xml" />
@@ -39,4 +47,9 @@
     
     </session-factory>
 
+<<<<<<< HEAD
+=======
+ 
+
+>>>>>>> eb63eded9899513af9538a187ddf701ead10b135
 </hibernate-configuration>

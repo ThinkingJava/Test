@@ -86,4 +86,16 @@ public class Student implements java.io.Serializable {
 		this.studentImage = studentImage;
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public String toString() {
+		return "Student [studentId=" + studentId + ", name=" + name + ", sex="
+				+ sex + ", age=" + age + ", department=" + department
+				+ ", studentImage=" + studentImage + "]";
+	}
+	
+	
+
+>>>>>>> eb63eded9899513af9538a187ddf701ead10b135
 }

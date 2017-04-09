@@ -1,0 +1,3 @@
+commons-logging-1.2.4------commons-logging-1.1
+mysql-connector-java-5.1.6-bin-------mysql-connector-java-5.1.7-bin
+Junit-4.5---------Junit-4.7

@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
+<<<<<<< HEAD
 <package name="default" extends="struts-default">
+=======
+	<!-- OGNL可以使用静态方法 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	
+<package name="default" extends="struts-default">
+
+
+		<!-- 配置拦截器 -->
+		<interceptors>
+			<!-- 验证用户登录的拦截器 -->
+			<interceptor name="loginInterceptor" class="com.ych.action.interceptor.TeacherLoginInteceptor"/>
+			<interceptor-stack name="teacherDefaultStack">
+				<interceptor-ref name="loginInterceptor"/>
+    			<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+
+>>>>>>> eb63eded9899513af9538a187ddf701ead10b135
  		 <global-results>
              <result name="login">/login.jsp</result>
        	  </global-results>
