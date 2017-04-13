@@ -4,14 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-<<<<<<< HEAD
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-=======
 import java.util.HashMap;
->>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 import java.util.List;
 import java.util.Map;
 
@@ -192,7 +189,6 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 	 * @throws
 	 */
 	
-<<<<<<< HEAD
 	public String updateAttendAPI() throws IOException{
 	   	Map<String,Object> map=new HashMap<String, Object>();
     	if(StringUtils.isNotEmpty(attend.getImagepath())){
@@ -200,7 +196,6 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 	  	   String imgStr=attend.getImagepath();
 	  	   String fileName = StringUitl.getStringTime() + ".jpg";
 		   String temp="/student_"+attend.getStudent().getStudentid();
-=======
 	public String updateAttend() throws IOException{
 	   	Map<String,Object> map=new HashMap<String, Object>();
     	if(StringUtils.isNotEmpty(attend.getStudentImage())){
@@ -208,7 +203,6 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 	  	   String imgStr=attend.getStudentImage();
 	  	   String fileName = StringUitl.getStringTime() + ".jpg";
 		   String temp="/student_"+attend.getAttendId();
->>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 		   String imgpath = AbsolutePath+temp+"/"+fileName;
 		   
 			File dir = new File( AbsolutePath+temp);
@@ -216,13 +210,10 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 				dir.mkdir();//创建文件夹
 			}
 			
-<<<<<<< HEAD
 			String relative = ConstUtil.STUDENTPATH+temp+"/"+fileName;
 			   attend.setImagepath(relative);
-=======
 			String relative = ConstUtil.NEWPATH+temp+"/"+fileName;
 			   attend.setStudentImage(relative);
->>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 			   try {
 				FileUpload.generateImage(imgStr, imgpath);
 			} catch (Exception e) {
@@ -232,7 +223,6 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
 				map.put("message", "图片存储失败");
 			}	
     	}
-<<<<<<< HEAD
     	try{
     		attendDao.update(attend);
     		map.put("status", "SUCCESS");
@@ -241,14 +231,10 @@ public class AttendAction extends BaseAction implements ModelDriven<Attend>{
     		map.put("status", "FALSE");
     		map.put("message", "数据库更改失败");
     	}
-		
 
-
-=======
 		attendDao.update(attend);
 
 		map.put("status", "SUCCESS");
->>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 		ResultUtils.toJson(ServletActionContext.getResponse(), map);
 		return null;
 	}

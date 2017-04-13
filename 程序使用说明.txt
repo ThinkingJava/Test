@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿
+=======
+后台管理员http://192.168.1.***:8080/Shop/admin/user/user_logon.html
+>>>>>>> 7bd4fbd86598a7b1ceab32e5ba1ad43c3fe31ed9
 
 http://localhost:8080/Test/index.jsp
 
