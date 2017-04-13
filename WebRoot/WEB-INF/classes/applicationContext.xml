@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
+=======
+<!-- <beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> -->
+>>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
@@ -6,6 +14,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+<<<<<<< HEAD
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
            default-lazy-init="true">
            
@@ -17,6 +26,17 @@
 	    <!-- 该 BeanPostProcessor 将自动对标注 @Autowired 的 Bean 进行注入 -->     
       <!--  <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>   -->
 	
+=======
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+    <context:annotation-config/>
+	<context:component-scan base-package="com.ych"/>
+<!-- 	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation"
+			value="classpath:hibernate.cfg.xml">
+		</property>
+	</bean> -->
+>>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 		<!-- 配置sessionFactory -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -24,7 +44,10 @@
 			<value>classpath:hibernate.cfg.xml</value>
 		</property>
 	</bean>
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 	<!-- 配置事务管理器 -->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
@@ -32,13 +55,20 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+<<<<<<< HEAD
 	
 	<!-- 通过注解的方式控制事务 -->  
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
+=======
+	<tx:annotation-driven transaction-manager="transactionManager" />
+>>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 	<!-- 定义Hibernate模板对象 -->
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 	</beans>

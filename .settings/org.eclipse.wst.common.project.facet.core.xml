@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<faceted-project>
+  <runtime name="com.genuitec.runtime.generic.jee60"/>
+  <fixed facet="jst.web"/>
+  <fixed facet="java"/>
+  <fixed facet="wst.jsdt.web"/>
+  <installed facet="java" version="1.6"/>
+  <installed facet="jst.web" version="3.0"/>
+  <installed facet="jst.web.jstl" version="1.2.1"/>
+  <installed facet="wst.jsdt.web" version="1.0"/>
+  <installed facet="me.hibernate" version="3.1"/>
+  <installed facet="me.spring" version="3.0"/>
+  <installed facet="web.struts2" version="2.1"/>
+</faceted-project>
+=======
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
   <runtime name="MyEclipse Tomcat v6.0"/>
@@ -8,3 +24,4 @@
   <installed facet="wst.jsdt.web" version="1.0"/>
   <installed facet="me.hibernate" version="3.0"/>
 </faceted-project>
+>>>>>>> eb63eded9899513af9538a187ddf701ead10b135

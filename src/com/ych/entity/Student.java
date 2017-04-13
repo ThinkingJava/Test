@@ -142,11 +142,16 @@ public class Student implements java.io.Serializable {
 		return this.attends;
 	}
 
+<<<<<<< HEAD
 	public void setAttends(Set attends) {
 		this.attends = attends;
 	}
     
 	
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 	@Override
 	public String toString() {
 		return "Student [studentid=" + studentid + ", major=" + major
@@ -166,4 +171,11 @@ public class Student implements java.io.Serializable {
 		object.put("imagepath", imagepath);
 		return object;
 	}
+<<<<<<< HEAD
+=======
+	
+	
+
+>>>>>>> eb63eded9899513af9538a187ddf701ead10b135
+>>>>>>> 2d47266740bc805e9dd402192a7321ac5ee26525
 }
