@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/Test/css/theme.css">
     <link rel="stylesheet" href="/Test/font-awesome/css/font-awesome.css">
 
-	<script src="/Test/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<script src="/Test/js/jquery-1.8.1.min.js" type="text/javascript"></script>
     <script src="/Test/bootstrap/js/bootstrap.js"></script>
    
 
@@ -56,7 +56,7 @@
                         <ul class="dropdown-menu">
                             <li><a tabindex="-1" href="/Test/personal.html">个人中心</a></li>
                             <li class="divider"></li>
-                            <li><a tabindex="-1" href="/Test/login.do?flag=logout">退出</a></li>
+                            <li><a tabindex="-1" href="/Test/loginOut.html">退出</a></li>
                         </ul>
                     </li>
                     
@@ -75,7 +75,7 @@
 
         <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-dashboard"></i>首页</a>
         <ul id="dashboard-menu" class="nav nav-list collapse in">
-            <li><a href="/Test/home.do?flag=home">报表</a></li>
+            <li><a href="/Test/index.html">报表</a></li>
             <li><a href="/Test/personal.html">个人中心</a></li>
         </ul>
 
@@ -91,10 +91,10 @@
             <li ><a href="/Test/attendCourse.html">考勤管理</a></li>
         </ul>
 
-        <a href="#order-menu" class="nav-header" data-toggle="collapse"><i class="icon-th-large"></i>订单</a>
+<!--         <a href="#order-menu" class="nav-header" data-toggle="collapse"><i class="icon-th-large"></i>订单</a>
         <ul id="order-menu" class="nav nav-list collapse">
             <li ><a href="/Test/order.do?flag=order">订单管理</a></li>
-        </ul>
+        </ul> -->
     </div>
     </body>
     </html>

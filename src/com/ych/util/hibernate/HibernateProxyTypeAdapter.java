@@ -12,6 +12,14 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * 
+ * ClassName: HibernateProxyTypeAdapter 
+ * @Description: TODO
+ * @author 杨城欢
+ * @date 2016年11月16日
+ */
+
 public class HibernateProxyTypeAdapter extends TypeAdapter<HibernateProxy> {
 
     public static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() {
@@ -44,7 +52,7 @@ public class HibernateProxyTypeAdapter extends TypeAdapter<HibernateProxy> {
         // Get the TypeAdapter of the original class, to delegate the serialization
         TypeAdapter delegate = context.getAdapter(TypeToken.get(baseType));
         // Get a filled instance of the original class
-        Object unproxiedValue = ((HibernateProxy) value).getHibernateLazyInitializer()
+        Object unproxiedValue = value.getHibernateLazyInitializer()
                 .getImplementation();
         // Serialize the value
         delegate.write(out, unproxiedValue);

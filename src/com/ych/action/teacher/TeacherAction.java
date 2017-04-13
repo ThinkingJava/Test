@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.xwork.StringUtils;
@@ -13,8 +15,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.ych.action.BaseAction;
+import com.ych.entity.Attend;
+import com.ych.entity.Course;
 import com.ych.entity.Teacher;
 import com.ych.model.PageModel;
+import com.ych.openCVUtils.DetectFaceUtil;
 import com.ych.util.ConstUtil;
 import com.ych.util.ResultUtils;
 import com.ych.util.StringUitl;
@@ -118,15 +123,62 @@ public class TeacherAction extends BaseAction{
 	
 	public String teacherMessage(){
 		Teacher teacher = (Teacher) ServletActionContext.getRequest().getSession().getAttribute("teacher");
-		
-		System.out.println(teacher.getTeacherid()+":"+teacher.getTeachername()+":"+teacher.getDepartment());
+		if(teacher!=null)
 		return SUCCESS;
+		else
+		return LOGIN;
+	}
+	
+	public String index(){
+		Teacher teacher = (Teacher) ServletActionContext.getRequest().getSession().getAttribute("teacher");
+		if(teacher!=null){
+			int countToDay=0,countYesterDay=0;
+			Iterator<Course> itAttend = teacher.getCourses().iterator();
+			Map<String,Integer> tempMapToDay = new HashMap<String,Integer>();
+			Map<String,Integer> tempMapYesterDay = new HashMap<String,Integer>();                 
+			while(itAttend.hasNext()){
+			
+			Course course =	itAttend.next();
+			int listAttendToDay = attendDao.getCountByWhereToDay(course.getCourseid());
+			tempMapToDay.put(course.getCoursename(), listAttendToDay);
+			 countToDay+=listAttendToDay;
+			 
+			int listAttendYesterDay = attendDao.getCountByWhereYesterDay(course.getCourseid());
+			tempMapYesterDay.put(course.getCoursename(), listAttendYesterDay);
+			countYesterDay+=listAttendYesterDay;
+			}
+			session.put("courseToDay", tempMapToDay);
+			session.put("courseYesterDay", tempMapYesterDay);
+			session.put("countToDay", countToDay);
+			session.put("countYesterDay", countYesterDay);
+			
+			return SUCCESS;
+		}
+			
+		else
+			return LOGIN;
 	}
 
 	public String updateTeacherMessage(){
-		System.out.println("updateTeacher:"+teacher.getTeacherid()+":"+teacher.getTeachername()+":"+teacher.getDepartment()+":"+teacher.getSex());
+//		System.out.println("updateTeacher:"+teacher.getTeacherid()+":"+teacher.getTeachername()+":"+teacher.getDepartment()+":"+teacher.getSex());
+		
+		Teacher tea = (Teacher)ServletActionContext.getRequest().getSession().getAttribute("teacher");
+		      if(tea!=null){
+		    	  if(teacher.getTeacherid()!=null)
+		    		  tea.setTeacherid(teacher.getTeacherid());
+		    	  if(teacher.getTeachername()!=null)
+		    		  tea.setTeachername(teacher.getTeachername());
+		    	  if(teacher.getSex()!=null)
+		    		  tea.setSex(teacher.getSex());
+		    	  if(teacher.getDepartment()!=null)
+		    		  tea.setDepartment(teacher.getDepartment());
+
 		try{
 		if(photo!=null){
+	//		DetectFaceUtil detectFace = new DetectFaceUtil();
+	    	boolean isExist = DetectFaceUtil.isExistFace(photo.getPath());
+			if(isExist){  //判断是否存在人脸
+
 			String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.TEACHERPATH).replace("\\", "/");
 			String fileName = StringUitl.getStringTime() + ".png";
 			FileInputStream fis = null;//输入流
@@ -143,33 +195,53 @@ public class TeacherAction extends BaseAction{
 				while((len = fis.read(bs)) != -1){//循环读取文件
 					fos.write(bs, 0, len);//向指定的文件夹中写数据
 				}
-		    if(StringUtils.isNotEmpty(teacher.getImagepath())){
+		    if(StringUtils.isNotEmpty(tea.getImagepath())){
 		    	String outpath= ServletActionContext.getServletContext().getRealPath("").replace("\\", "/")+teacher.getImagepath();
 		    	File outfile=new File(outpath);
 		    	if(outfile.isFile()){
 		    		outfile.delete();
 		    	}
 		    }
-			teacher.setImagepath(ConstUtil.TEACHERPATH+fileName);
+			tea.setImagepath(ConstUtil.TEACHERPATH+fileName);
 			}catch (Exception e) {
 				e.printStackTrace();
-				return ERROR;
+				map.put(ConstUtil.status, "3");
+				map.put(ConstUtil.message, "发生异常");
+				return SUCCESS;
 			}finally{
 				fos.flush();
 				fos.close();
 				fis.close();
 			}
+			}else{
+				map.put(ConstUtil.status, "3");
+				map.put(ConstUtil.message, "找不到人脸");
+				return SUCCESS;
 			}
-		teacherDao.update(teacher);
-		ServletActionContext.getRequest().getSession().setAttribute("teacher", teacher);
+		}
+		teacherDao.saveOrUpdate(tea);
+		ServletActionContext.getRequest().getSession().setAttribute("teacher", tea);
+		map.put(ConstUtil.status, "1");
+		map.put(ConstUtil.message, "更改成功");
 		return SUCCESS;
 		}catch(Exception e){
-
+         e.printStackTrace();
+      
 		}
-        return ERROR;
+		map.put(ConstUtil.status, "3");
+		map.put(ConstUtil.message, "发生异常");
+        return SUCCESS;
+		  }else
+		  return LOGIN;
 	}
 	
-
+	Map<String,String> map = new HashMap<String, String>();
+	public Map<String, String> getMap() {
+		return map;
+	}
+	public void setMap(Map<String, String> map) {
+		this.map = map;
+	}
 
 	
 }

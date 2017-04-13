@@ -10,9 +10,11 @@ import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletInputStream;
 
@@ -29,8 +31,11 @@ import com.ych.action.BaseAction;
 import com.ych.entity.Attend;
 import com.ych.entity.Course;
 import com.ych.entity.Major;
+import com.ych.entity.Score;
 import com.ych.entity.Student;
+import com.ych.entity.Teacher;
 import com.ych.model.PageModel;
+import com.ych.openCVUtils.DetectFaceUtil;
 import com.ych.util.ConstUtil;
 import com.ych.util.FileUpload;
 import com.ych.util.ResultUtils;
@@ -47,6 +52,15 @@ import com.ych.util.StringUitl;
 public class StudentAction extends BaseAction implements ModelDriven<Student>{
 
 	private static final long serialVersionUID = 1L;
+	private String courseid;
+
+	public String getCourseid() {
+		return courseid;
+	}
+
+	public void setCourseid(String courseid) {
+		this.courseid = courseid;
+	}
 
 	public Student student=new Student();
 
@@ -77,38 +91,38 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 		this.major = major;
 	}
 
-	@SuppressWarnings("unchecked")
-	public String loginAPI() throws Exception{
-//		String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH).replace("\\", "/");
-         Map<String,Object> map=new HashMap<String,Object>();
-		 PageModel<Student> list=studentDao.find(pageNo,maxResult);
-		 Map<String,Object> li=new HashMap<String,Object>();
-		 for(int i=0;i<list.getList().size();i++){
-			 li.put("studentid",list.getList().get(i).getStudentid()+"");
-			 li.put("studentname",list.getList().get(i).getStudentname());
-			 li.put("sex", list.getList().get(i).getSex());
-			 li.put("major", list.getList().get(i).getMajor().getMajorname());
-			 
-			 List<Course> courses=new ArrayList<Course>(list.getList().get(i).getCourses());
-			 List<Object> templist=new ArrayList<Object>();
-			 for(Course course:courses){
-				Map<String,Object> temp=new HashMap<String,Object>();
-				temp.put("courseid",course.getCourseid());
-				temp.put("coursename",course.getCoursename());
-				temp.put("teacherid",course.getTeacher().getTeacherid());
-				temp.put("teachername",course.getTeacher().getTeachername());
-				templist.add(temp);
-			 }
-
-		     li.put("courses", templist);	 
-		     li.put("imagepath", list.getList().get(i).getImagepath());
-         
-		 }
-		 map.put("list", li);
-		 ResultUtils.toJson(ServletActionContext.getResponse(), map);  
-		
-		return null;
-	}
+//	@SuppressWarnings("unchecked")
+//	public String loginAPI() throws Exception{
+////		String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH).replace("\\", "/");
+//         Map<String,Object> map=new HashMap<String,Object>();
+//		 PageModel<Student> list=studentDao.find(pageNo,maxResult);
+//		 Map<String,Object> li=new HashMap<String,Object>();
+//		 for(int i=0;i<list.getList().size();i++){
+//			 li.put("studentid",list.getList().get(i).getStudentid()+"");
+//			 li.put("studentname",list.getList().get(i).getStudentname());
+//			 li.put("sex", list.getList().get(i).getSex());
+//			 li.put("major", list.getList().get(i).getMajor().getMajorname());
+//			 
+//			 List<Course> courses=new ArrayList<Course>(list.getList().get(i).getCourses());
+//			 List<Object> templist=new ArrayList<Object>();
+//			 for(Course course:courses){
+//				Map<String,Object> temp=new HashMap<String,Object>();
+//				temp.put("courseid",course.getCourseid());
+//				temp.put("coursename",course.getCoursename());
+//				temp.put("teacherid",course.getTeacher().getTeacherid());
+//				temp.put("teachername",course.getTeacher().getTeachername());
+//				templist.add(temp);
+//			 }
+//
+//		     li.put("courses", templist);	 
+//		     li.put("imagepath", list.getList().get(i).getImagepath());
+//         
+//		 }
+//		 map.put("list", li);
+//		 ResultUtils.toJson(ServletActionContext.getResponse(), map);  
+//		
+//		return null;
+//	}
 	/**
 	 * 
 	 * @Title: getStudent 
@@ -168,14 +182,9 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 //        System.out.println(student.toString());
    //     JSONObject json=JSONObject.fromObject(sb.toString());
         
-		if(student!=null){
-			System.out.println("------ww---------");
-//		  	   student.setName(json.getString("name"));
-//		  	   student.setDepartment(json.getString("department"));
-//		  	   student.setAge(json.getInt("age"));
-//		  	   student.setSex(json.getInt("sex"));
-		
-			   String temp="student_"+student.getStudentname();
+		if(student.getStudentname()!=null){
+			
+			   String temp="student_"+student.getStudentid();
 		  	   String fileName = StringUitl.getStringTime() + ".png";
 		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH+temp);
 		  	   String imgpath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH+temp+"/"+fileName);
@@ -198,23 +207,70 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 					map.put("status", "FALSE");
 					map.put("message", "图片存储失败");
 				}	
+				   try{
+				  if(org.apache.commons.lang.StringUtils.isNotEmpty(courseid)){
+					Course course= courseDao.findByCourse(courseid);
+					if(course!=null){
+				   Set<Course> tempset=	new HashSet<Course>();
+				   tempset.add(course);
+				   student.setCourses(tempset);
+				   student.setDatatime(new Timestamp(System.currentTimeMillis()));
+				   student.setRemark("移动创建");
+				   student.setScore(50);
 				   attendDao.save(student);
+				   course.setNumber(course.getNumber()+1);
+				   courseDao.saveOrUpdate(course);  //班级人数添加
+				   map.put("message", "添加成功");
 				   map.put("status", "SUCCESS");
-   
+					}else{
+						  map.put("message", "不存在该班级");
+						  map.put("status", "FALSE"); 	
+					}
+				  }else{
+					  map.put("message", "添加错误");
+					  map.put("status", "FALSE");  
+				  }
+				   }catch(Exception e){
+					   e.printStackTrace(); 
+					   map.put("message", "班级错误");
+					   map.put("status", "FALSE");  
+				   }
 		}else{
 			map.put("message", "参数不正确");
+			 map.put("status", "FALSE");
 		}
 		 ResultUtils.toJson(ServletActionContext.getResponse(),map);
     	//studentDao.save(student);
     	return null;
     }
     
-    public String getCourseStudentAPI() throws IOException{
-    	 PageModel<Student> list=studentDao.find(pageNo,maxResult);
-		 ResultUtils.toJson(ServletActionContext.getResponse(), list); 
-		return null;
-    	
+    public String findByStudentIdExistAPI() throws IOException{
+    	Map<String ,Object> map=new HashedMap();
+    	if(org.apache.commons.lang.StringUtils.isNotEmpty(student.getStudentid())){
+    		
+    	Student stu=studentDao.findByStudent(student.getStudentid());
+    		if(stu!=null){
+    		 map.put("message", "该学生已存在");
+   			 map.put("status", "FALSE");	
+    		}else{
+       		 map.put("message", "该学生不存在");
+      		 map.put("status", "SUCCESS");		
+    		}
+    	}else{
+   		 map.put("message", "学号不能为空");
+   		 map.put("status", "FALSE");
+    	}
+	
+    	 ResultUtils.toJson(ServletActionContext.getResponse(),map);
+    	return null;
     }
+    
+//    public String getCourseStudentAPI() throws IOException{
+//    	 PageModel<Student> list=studentDao.find(pageNo,maxResult);
+//		 ResultUtils.toJson(ServletActionContext.getResponse(), list); 
+//		return null;
+//    	
+//    }
     
     public String getAllStudentAPI() throws IOException{
     	Map<String,Object> map=new HashMap<String,Object>();
@@ -255,6 +311,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
         AbsolutePath=AbsolutePath.replaceAll("\\\\", "/");
         if(student.getStudentid()!=null){
        Student stu = studentDao.findByStudent(student.getStudentid());
+       if(stu!=null){
         String path=AbsolutePath+stu.getImagepath();
         File file=new File(path);
         if(file.exists()&&file.isFile()){
@@ -262,9 +319,45 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
         		System.out.println("删除成功");
         	}
         }
+        try{
+        Iterator<Course> courseIt =  stu.getCourses().iterator();
+        	while(courseIt.hasNext()){
+        		Course course = courseIt.next();
+        		course.setNumber(course.getNumber()-1);
+        		courseDao.saveOrUpdate(course);
+        	}
+        	
+        	stu.setCourses(null);  //设置不关联
+        	studentDao.saveOrUpdate(stu);	
+       	Iterator<Attend> attendit=stu.getAttends().iterator();
+        	while(attendit.hasNext()){
+        		Attend attend=attendit.next();
+        		 attendDao.delete(attend);
+        	}
+        	
+           	Iterator<Score> scoreit=stu.getScores().iterator();
+        	while(scoreit.hasNext()){
+        		Score score=scoreit.next();
+        		 attendDao.delete(score);
+        	}
+      
+        
     	studentDao.delete(stu);
-        }
+        map.put("message", "删除成功");
     	map.put("status", "SUCCESS");
+        }catch(Exception e){
+        	e.printStackTrace();
+            map.put("message", "数据删除失败");
+        	map.put("status", "FALSE");
+        }
+        }else{
+            map.put("message", "删除失败，不存在该学生");
+        	map.put("status", "FALSE");
+        }
+        }else{
+        	 map.put("message", "参数错误");
+         	 map.put("status", "FALSE");
+        }
     	 ResultUtils.toJson(ServletActionContext.getResponse(),map);
     	return null;
     }
@@ -272,7 +365,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
     public String updateStudentAPI() throws IOException{
     	Map<String,Object> map=new HashMap<String, Object>();
     	
-        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)ServletActionContext.getRequest().getInputStream(),"UTF-8"));  
+        BufferedReader br = new BufferedReader(new InputStreamReader(ServletActionContext.getRequest().getInputStream(),"UTF-8"));  
         String line = null;  
         StringBuilder sb = new StringBuilder();  
         while((line = br.readLine())!=null){  
@@ -287,7 +380,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
     		major.setMajorid(json.getInt("major"));
     		student.setMajor(major);
     		student.setStudentname(json.getString("name"));
-		  	Student outstudent=studentDao.findByStudent(student.getStudentid());
+		  	Student outstudent=studentDao.findByStudent(student.getStudentid());  //获取原来数据
     		student.setImagepath(outstudent.getImagepath());
     	if(json.containsKey("studentImage")){
 		  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH).replaceAll("\\\\","/");
@@ -354,9 +447,12 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 	}
 	
 	public String studentMessage(){
+		   Teacher teacher = (Teacher)ServletActionContext.getRequest().getSession().getAttribute("teacher");
+		      if(teacher!=null){
 		System.out.println("--------------------");
 		try{
 			if(org.apache.commons.lang.StringUtils.isNotEmpty(student.getStudentid())){
+				
 				student=studentDao.findByStudent(student.getStudentid());
 				major=majorDao.findAll().getList();
 /*				for(Major m:major){
@@ -365,6 +461,7 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 				map.clear();
 				map.put("student", student);
 				map.put("major", major);
+				map.put("courseid", courseid);
 			}else{
 				return ERROR;
 			}
@@ -374,6 +471,8 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 			return ERROR;
 		}
 		return SUCCESS;
+		  }else
+		  return LOGIN;
 	}
 
 
@@ -396,13 +495,16 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 	}
 
 	public String updateStudent(){
+		   Teacher teacher = (Teacher)ServletActionContext.getRequest().getSession().getAttribute("teacher");
+		      if(teacher!=null){
 		map.clear();
 		try{
 			if(photo!=null){
-				
-				 String temp="student_"+student.getStudentname();
-			  	   String fileName = StringUitl.getStringTime() + ".png";
-			  	   String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH+temp+"/");
+				boolean isExist = DetectFaceUtil.isExistFace(photo.getPath());
+				if(isExist){  //判断是否存在人脸
+				 String temp="student_"+student.getStudentid();
+			     String fileName = StringUitl.getStringTime() + ".png";
+			  	 String AbsolutePath = ServletActionContext.getServletContext().getRealPath(ConstUtil.LOCALSTUDENTPATH+temp+"/");
 		
 				FileInputStream fis = null;//输入流
 				FileOutputStream fos = null;//输出流
@@ -434,7 +536,24 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 					fos.close();
 					fis.close();
 				}
+				}else{
+					Student temp=studentDao.findByStudent(student.getStudentid()); //获取原来数据   关联表数据不能为空，如果为空会出现删除关联表数据
+					student.setCourses(temp.getCourses());  //填充原来数据
+					student.setAttends(temp.getAttends());
+					student.setDatatime(temp.getDatatime());
+					student.setScores(temp.getScores());
+					studentDao.saveOrUpdate(student);
+					
+					major=majorDao.findAll().getList();
+					map.clear();
+					map.put("student", student);
+					map.put("major", major);
+					map.put("status", "3");
+					map.put("message", "检查不到人脸");
+					map.put("courseid", courseid);
+					return SUCCESS;
 				}
+			}
 			Student temp=studentDao.findByStudent(student.getStudentid()); //获取原来数据   关联表数据不能为空，如果为空会出现删除关联表数据
 			student.setCourses(temp.getCourses());  //填充原来数据
 			student.setAttends(temp.getAttends());
@@ -447,12 +566,16 @@ public class StudentAction extends BaseAction implements ModelDriven<Student>{
 			map.put("student", student);
 			map.put("major", major);
 			map.put("status", "1");
+			map.put("courseid", courseid);
 			return SUCCESS;
 			}catch(Exception e){
                e.printStackTrace();
                
 			}
 	        return ERROR;
+		      }else{
+		    	  return LOGIN;
+		      }
 	}
 	
 	

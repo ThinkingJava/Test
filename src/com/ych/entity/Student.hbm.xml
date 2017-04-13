@@ -8,10 +8,10 @@
  <class catalog="student" name="com.ych.entity.Student" table="student">
   <id name="studentid" type="java.lang.String">
    <column length="11" name="studentid"/>
-   <generator class="native"/>
+<!--    <generator class="native"/> -->
   </id>
-  <many-to-one class="com.ych.entity.Major" fetch="select" name="major">
-   <column name="majorid" not-null="true"/>
+  <many-to-one class="com.ych.entity.Major" fetch="select" name="major" >
+   <column name="majorid" />
   </many-to-one>
   <property generated="never" lazy="false" name="studentname" type="java.lang.String">
    <column length="50" name="studentname" not-null="true"/>
@@ -31,7 +31,7 @@
   <property generated="never" lazy="false" name="imagepath" type="java.lang.String">
    <column length="50" name="imagepath"/>
   </property>
-  <set catalog="student" name="courses" sort="unsorted" table="student_course">
+  <set catalog="student" name="courses" sort="unsorted" table="student_course" >
    <key>
     <column length="11" name="studentid" not-null="true"/>
    </key>

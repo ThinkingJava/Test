@@ -25,7 +25,7 @@ public class StudentDaoImpl extends DaoSupport<Student> implements StudentDao {
 			student=list.get(0);
 		}
 			
-		System.out.println("StudentDaoImpl--->>findByCustomer()");
+//		System.out.println("StudentDaoImpl--->>findByCustomer()");
 		return student;
 	}
 

@@ -32,7 +32,7 @@
         </div>
         
                 <ul class="breadcrumb">
-            <li><a href="/WirelessOrder/home.do?flag=home">主页</a> <span class="divider">/</span></li>
+            <li><a href="/Test/personal.html">主页</a> <span class="divider">/</span></li>
             <li class="active">学生</li>
         </ul>
 
@@ -65,8 +65,8 @@
                             <div class="thumbnail">
                                 <img src="/Test<s:property value="imagepath"/>" alt="" width="220" height="170">
                                 <h3>学号:<s:property value="studentid"/> 姓名:<s:property value="studentname"/></h3>                         
-                                <a href="/Test/menu.do?flag=menuPre&id=<s:property value="studentid"/>" class="btn btn-primary"> 预 览</a>
-                                <a  class="btn btn-info" href="/Test/studentMessage.html?student.studentid=<s:property value="studentid"/>">
+                               <%--  <a href="/Test/menu.do?flag=menuPre&id=<s:property value="studentid"/>" class="btn btn-primary"> 预 览</a> --%>
+                                <a  class="btn btn-info" href="/Test/studentMessage.html?student.studentid=<s:property value="studentid"/>&courseid=<s:property value="course.courseid"/>">
                                 <i class="icon-edit icon-white"></i>修改
                                 </a>
               					<button  onclick="del(this)" courseid="<s:property value="map.courseid"/>"  delid="<s:property value="studentid"/>" pNow="<s:property value="pageModel.pageNo"/>" class="btn btn-danger">
@@ -123,12 +123,12 @@
     </ul>  
     </div>  
 	</s:if>
-			<footer>
+<!-- 			<footer>
 			<hr>
 			<p class="pull-right">
 				&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a>
 			</p>
-			</footer>
+			</footer> -->
             </div>
         </div>
     </div>

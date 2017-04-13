@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ych.dao.DaoSupport;
-import com.ych.entity.Major;
 import com.ych.entity.Score;
 @Repository("scoreDao")
 @Transactional
@@ -31,13 +30,22 @@ public class ScoreDaoImpl extends DaoSupport<Score> implements ScoreDao{
 	}
 
 	@Override
-	public Score findByScore(int studentId, int courseId) {
+	public Score findByScore(String studentId, int courseId) {
 		// TODO Auto-generated method stub
 		String where ="where studentid = ? and courseid = ? ";
 	    Object []queryParams ={studentId,courseId};
 	    Score list=find(-1,-1,where,queryParams).getList().get(0);
 		return list;
 	}
+
+//	@Override
+//	public void deleteById(String studentId) {
+//		// TODO Auto-generated method stub
+//		String where ="where studentid = ? ";
+//		Object []queryParams ={studentId};
+//		
+//	//	deleteByWhere(where, queryParams);
+//	}
 
 
 }

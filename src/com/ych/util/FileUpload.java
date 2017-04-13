@@ -1,6 +1,5 @@
 package com.ych.util;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
@@ -26,7 +25,7 @@ public class FileUpload {
 	b[i] += 256;
 	}
 	}
-	// 生成jpeg图片
+	// 生成png图片
 	String imgFilePath = imgpath;// 新生成的图片
 	OutputStream out = new FileOutputStream(imgFilePath);
 	out.write(b);

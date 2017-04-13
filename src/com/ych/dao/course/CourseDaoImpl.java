@@ -1,5 +1,7 @@
 package com.ych.dao.course;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +16,13 @@ public class CourseDaoImpl extends DaoSupport<Course> implements CourseDao{
 		// TODO Auto-generated method stub
 		String where ="where courseid = ?";
 	    Object []queryParams ={courseId};
-	    Course list=find(-1,-1,where,queryParams).getList().get(0);
-		return list;
+	 List<Course> tempList = find(-1,-1,where,queryParams).getList();
+	 if(tempList!=null&&tempList.size()>0)
+		 return tempList.get(0);
+	 
+		return null;
 	}
+
+
 
 }

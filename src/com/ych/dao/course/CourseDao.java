@@ -5,4 +5,5 @@ import com.ych.entity.Course;
 
 public interface CourseDao  extends BaseDao<Course>{
 	 public Course findByCourse(String courseId);
+
 }

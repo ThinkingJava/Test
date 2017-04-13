@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ych.dao.DaoSupport;
-import com.ych.entity.Course;
 import com.ych.entity.Login;
 import com.ych.entity.Teacher;
 @Repository("loginDao")

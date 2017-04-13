@@ -29,7 +29,7 @@
 
        	  
 		 <!-- studentAction -->
-       	  <action name="loginAPI" class="com.ych.action.student.StudentAction" method="loginAPI">
+       	  <action name="loginAPI" class="com.ych.action.login.LoginAction" method="loginAPI">
 <!--          <result name="success">/main.jsp</result>
              <result name="error">/login.jsp</result> -->
          </action>
@@ -45,8 +45,11 @@
          <action name="getOneStudentAPI" class="com.ych.action.student.StudentAction" method="getOneStudentAPI">
          </action>
         
-         <action name="getCourseStudentAPI" class="com.ych.action.student.StudentAction" method="getCourseStudentAPI">
-         </action> 
+         <action name="findByStudentIdExistAPI" class="com.ych.action.student.StudentAction" method="findByStudentIdExistAPI">
+        </action>
+        
+<!--          <action name="getCourseStudentAPI" class="com.ych.action.student.StudentAction" method="getCourseStudentAPI">
+         </action>  -->
          
          <action name="getAllStudentAPI" class="com.ych.action.student.StudentAction" method="getAllStudentAPI">
          </action> 
@@ -65,17 +68,39 @@
         
        	<action name="getOneCourseStudentAPI" class="com.ych.action.course.CourseAction" method="getOneCourseStudentAPI">
         </action>  
+        
+       	<action name="getCourseStudentAPI" class="com.ych.action.course.CourseAction" method="getCourseStudentAPI">
+        </action> 
+        
+        <action name="addAttendCourseAPI" class="com.ych.action.attend.AttendAction" method="addAttendCourseAPI">
+        </action>
+        
+        <action name="addCourseStudentAPI" class="com.ych.action.course.CourseAction" method="addCourseStudentAPI">
+        </action>
+                
+        <action name="deleteCourseStudentAPI" class="com.ych.action.course.CourseAction" method="deleteCourseStudentAPI">
+        </action>  
          
+         <action name="addAttendAPI" class="com.ych.action.attend.AttendAction" method="addAttendAPI">
+        </action>
+        
+       <action name="getCourseAttendAPI" class="com.ych.action.attend.AttendAction" method="getCourseAttendAPI">
+        </action>
+        
+
+        
      <!--   	<action name="login" class="com.ych.action.grade.GradeAction" method="addGradeAPI">
         </action>  --> 
         <!-- 后台使用 -->
         <action name="studentInfo" class="com.ych.action.student.StudentAction" >
        	<result name="success">/studentInfo.jsp</result>    
        	<result name="error">/index.jsp</result>   	
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action>  
         <action name="getOneStudent" class="com.ych.action.student.StudentAction" >
        	<result name="success">/studentInfo.jsp</result>    
-       	<result name="error">/index.jsp</result>   	
+       	<result name="error">/index.jsp</result>   
+       	<interceptor-ref name="teacherDefaultStack"/>	
         </action> 
          
         <action name="loginteacher" class="com.ych.action.login.LoginAction" method="login">
@@ -84,75 +109,119 @@
        	<result name="loginerror">/WEB-INF/pages/login/login.jsp</result>   	
         </action>  
         
+        <action name="loginOut" class="com.ych.action.login.LoginAction" method="loginOut">
+       	<result name="success">/WEB-INF/pages/login/login.jsp</result>
+        </action> 
+        
         <action name="personal" class="com.ych.action.teacher.TeacherAction" method="teacherMessage">
        	<result name="success">/WEB-INF/pages/teacher/personal.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+        <result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>
+        </action> 
+        
+        <action name="index" class="com.ych.action.teacher.TeacherAction" method="index">
+       	<result name="success">/WEB-INF/pages/index.jsp</result>
+        <result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action>  
         
          <action name="updateTeacherMessage" class="com.ych.action.teacher.TeacherAction" method="updateTeacherMessage">
        	<result name="success">/WEB-INF/pages/teacher/personal.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
-       	  <result name="input">/WEB-INF/pages/teacher/personal.jsp</result>
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+  <!--       <interceptor-ref name="teacherDefaultStack"/> -->
         </action> 
         
         <action name="updatePassword" class="com.ych.action.login.LoginAction" method="updatePassword">
        	<result name="success">/WEB-INF/pages/teacher/personal.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action>   
         
         <action name="courseMessage" class="com.ych.action.course.CourseAction" method="courseMessage">
        	<result name="success">/WEB-INF/pages/course/courseMessage.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action>   
         
         <action name="teacherCourse" class="com.ych.action.course.CourseAction" method="teacherCourse">
        	<result name="success">/WEB-INF/pages/course/teacherCourse.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action> 
         
         <action name="studentMessage" class="com.ych.action.student.StudentAction" method="studentMessage">
        	<result name="success">/WEB-INF/pages/student/studentMessage.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action>  
         
         <action name="updateStudent" class="com.ych.action.student.StudentAction" method="updateStudent">
        	<result name="success">/WEB-INF/pages/student/studentMessage.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result> 
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action> 
         
        <action name="deleteCourseStudent" class="com.ych.action.course.CourseAction" method="deleteCourseStudent">
        	<result name="success">/WEB-INF/pages/course/teacherCourse.jsp</result>    
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result>   	
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>   	
         </action> 
         
         <action name="attendMessage" class="com.ych.action.attend.AttendAction" method="attendMessage">
        	<result name="success">/WEB-INF/pages/attend/attendMessage.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/> 
         </action> 
         
        <action name="attendCourse" class="com.ych.action.course.CourseAction" method="attendCourse">
        	<result name="success">/WEB-INF/pages/attend/attendCourse.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result> 
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action>
         
        <action name="addCourseStudentHead" class="com.ych.action.course.CourseAction" method="addCourseStudentHead">
        	<result name="success">/WEB-INF/pages/course/addCourseStudent.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/>
         </action>
         
          <action name="addCourseStudent" class="com.ych.action.course.CourseAction" method="addCourseStudent">
        	<result name="success">/WEB-INF/pages/course/addCourseStudent.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result>
+       	<interceptor-ref name="teacherDefaultStack"/> 
         </action>
         
          <action name="addAttendCourse" class="com.ych.action.attend.AttendAction" method="addAttendCourse">
        	<result name="success">/WEB-INF/pages/attend/addAttend.jsp</result>  
-       	<result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       	<result name="error">/WEB-INF/pages/index.jsp</result>
+       	<result name="login">/WEB-INF/pages/login/login.jsp</result> 
+       	<interceptor-ref name="teacherDefaultStack"/>
+        </action>
+        
+       <action name="attendPre" class="com.ych.action.attend.AttendAction" method="attendPre">
+       <result name="success">/WEB-INF/pages/attend/attendPre.jsp</result>  
+       <result name="error">/WEB-INF/pages/index.jsp</result>
+       <result name="login">/WEB-INF/pages/login/login.jsp</result>
+       <interceptor-ref name="teacherDefaultStack"/>
         </action>
         
        <action name="addAttend" class="com.ych.action.attend.AttendAction" method="addAttend">
-       <result name="success">/WEB-INF/pages/attend/attendCourse.jsp</result>  
-       <result name="error">/WEB-INF/pages/login/login.jsp</result> 
+       <result name="success">/WEB-INF/pages/attend/addAttend.jsp</result>  
+       <result name="error">/WEB-INF/pages/addAttend.jsp</result>
+       <result name="login">/WEB-INF/pages/login/login.jsp</result>
+       <interceptor-ref name="teacherDefaultStack"/>
         </action>
         
          <action name="updateAttendStatus" class="com.ych.action.attend.AttendAction" method="updateAttendStatus">
@@ -161,8 +230,10 @@
         </action>
         
          <action name="deleteAttend" class="com.ych.action.attend.AttendAction" method="deleteAttend">
-          <result name="success">/WEB-INF/pages/attend/attendMessage.jsp</result>  
-         <result name="error">/WEB-INF/pages/login/login.jsp</result> 
+         <result name="success">/WEB-INF/pages/attend/attendMessage.jsp</result>  
+         <result name="error">/WEB-INF/pages/index.jsp</result>
+         <result name="login">/WEB-INF/pages/login/login.jsp</result> 
+         <interceptor-ref name="teacherDefaultStack"/>
         </action>
         
 <!--     <action name="updateTeacher" class="com.ych.action.teacher.TeacherAction" method="updateTeacher">

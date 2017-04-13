@@ -2,14 +2,10 @@ package com.ych.action;
 
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.RequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import com.opensymphony.xwork2.ActionSupport;
 import com.ych.dao.attend.AttendDao;
 import com.ych.dao.course.CourseDao;
@@ -17,7 +13,6 @@ import com.ych.dao.login.LoginDao;
 import com.ych.dao.major.MajorDao;
 import com.ych.dao.score.ScoreDao;
 import com.ych.dao.student.StudentDao;
-import com.ych.dao.student.StudentDaoImpl;
 import com.ych.dao.teacher.TeacherDao;
 import com.ych.entity.Teacher;
 

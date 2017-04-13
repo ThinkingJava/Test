@@ -15,7 +15,14 @@ public class ConstUtil {
     public static final int delete=3;
     public static final int update=4;
     public static final int error=5;
-    
-    
-    
+    /**
+     * 返回成功
+     */
+    public static final String SUCCESS="SUCCESS";
+    /**
+     * 返回失败
+     */    
+    public static final String FALSE = "FALSE";
+    public static final String status = "status";
+    public static final String message = "message";
 }

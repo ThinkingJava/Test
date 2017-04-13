@@ -1,7 +1,6 @@
 package com.ych.dao;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import com.ych.model.PageModel;
@@ -18,9 +17,13 @@ public interface BaseDao<T> {
 	public T get(Serializable entityId);//加载实体对象
 	public T load(Serializable entityId);//加载实体对象
 	public Object uniqueResult(String hql, Object[] queryParams);//使用hql语句操作
+//	public Object deleteByWhere(String where, Object[] queryParams);  //根据条件删除
 	//加载更多
 //	public List<T> findMore(int pageNo,int end);	
 //	public List<T> findMore(int pageNo,int end,Map<String, String> orderby);  //按指定条件排序加载方法
+	
+	public long getCountByWhere(String hql, Object[] queryParams);
+	
     //加载全部
 	public PageModel<T> findAll(); //加载全部
 	public PageModel<T> findAll(Map<String, String> orderby);  //根据条件排序

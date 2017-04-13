@@ -48,18 +48,18 @@
   <div class="content">
         
         <div class="header">
-            <h1 class="page-title">考勤</h1>
+            <h1 class="page-title">學生</h1>
         </div>
         
                 <ul class="breadcrumb">
-            <li><a href="/Test/index.jsp">主页</a> <span class="divider">/</span></li>
+            <li><a href="/Test/personal.html">主页</a> <span class="divider">/</span></li>
             <li class="active">添加</li>
         </ul>
 
         <div class="container-fluid">
             <div class="row-fluid">
             	<s:if test="map.status==1">
-				    <div class="alert alert-error">
+				    <div class="alert alert-success">
 				        <button type="button" class="close" data-dismiss="alert">×</button>
 				        <strong>小提示：</strong> 添加成功！！
 				    </div>
@@ -70,10 +70,12 @@
 				        <strong>小提示：</strong> <s:property value="map.message" />
 				    </div>
 			      </s:if>
-            <div class="page-header" ></div>
+            <div class="page-header" >
+            <a href="/Test/teacherCourse.html?course.courseid=<s:property value="course.courseid" />"><button  class="btn">返 回</button> </a>
+		   </div>
             <form action="/Test/addCourseStudent.html" method="post" class="form-horizontal"   >  
             
-            <input id="courseid" type="hidden"  name="course.courseid" value="<s:property value="map.courseid" />">
+            <input id="courseid" type="hidden"  name="course.courseid" value="<s:property value="course.courseid" />">
               
             <div class="row-fluid">
                <div class="span7">  	
@@ -99,17 +101,17 @@
                </div>
                <div class="form-actions">
 								<button type="submit" class="btn btn-primary">添 加</button>
-								<a href="/WirelessOrder/menu.do?flag=menu">
+								<%-- <a href="/Test/teacherCourse.html?course.courseid=<s:property value="map.courseid" />">
 								<button  class="btn">返 回</button>
-							  </a>
+							    </a> --%>
 				</div>
                </form>
-			<footer>
+<!-- 			<footer>
 			<hr>
 			<p class="pull-right">
 				&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a>
 			</p>
-			</footer>
+			</footer> -->
             </div>
         </div>
     </div>

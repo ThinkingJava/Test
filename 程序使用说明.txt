@@ -1,6 +1,5 @@
-������ĺ�̨��¼��ַ��http://192.168.1.***:8080/Shop/admin/user/user_logon.html
+﻿
 
-http://localhost:8080/Test/login.html
+http://localhost:8080/Test/index.jsp
 
-�û�������붼��admin
 

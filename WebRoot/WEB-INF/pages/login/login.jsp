@@ -94,10 +94,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <button class="btn  btn-primary" type="submit">登陆</button>
          <button class="btn  " type="reset">重置</button>
       </form>
-       <footer>
+<!--        <footer>
                         <hr>
                         <p class="pull-right">&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a></p>
-                    </footer>
+                    </footer> -->
 
     </div> 
      

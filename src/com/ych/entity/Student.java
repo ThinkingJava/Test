@@ -162,7 +162,7 @@ public class Student implements java.io.Serializable {
 		object.put("major", major.toJSONObject());
 		object.put("studentname", studentname);
 		object.put("sex", sex);
-		object.put("datatime", datatime);
+		object.put("datatime", datatime.toString());
 		object.put("imagepath", imagepath);
 		return object;
 	}

@@ -59,7 +59,7 @@
         </div>
         
                 <ul class="breadcrumb">
-            <li><a href="/WirelessOrder/home.do?flag=home">首页</a> <span class="divider">/</span></li>
+            <li><a href="/Test/personal.html">主页</a> <span class="divider">/</span></li>
             <li class="active">班级</li>
         </ul>
 
@@ -68,8 +68,9 @@
                     
         <div class="row-fluid">
                 <div class="btn-toolbar">
-                    <a href="/Test/addCourseStudentHead.html?courseid=<s:property value="map.courseid" />"  class="btn btn-primary" >
-                    <i class="icon-plus"></i> 添 加</a>
+                 
+                   <a href="/Test/addAttendCourse.html?course.courseid=<s:property value="map.courseid" />"  class="btn btn-primary" >
+                   <i class="icon-plus"></i> 添 加</a>
                 <div class="btn-group">
                 </div>
                 </div>
@@ -97,7 +98,6 @@
           <th>学生号</th>
           <th>学生姓名</th>
           <th>考勤时间</th>
-          <th>总价</th>
           <th>考勤状态</th>
           <th>操作</th>
           <th style="width: 26px;"></th>
@@ -111,9 +111,6 @@
           <td><s:property value="student.studentname" /></td>
           <td><s:property value="datatime" /></td>
           <td>
-
-          </td>
-          <td>
           		<s:if test="status==1">
             	<div id="<s:property value="attendid" />"  class="make-switch" data-on-label="已签到" data-off-label="待签到" >
             	 <input  type="checkbox" checked ">
@@ -126,7 +123,7 @@
             	 </s:if>
           </td>
           <td>
-           <a href="/WirelessOrder/order.do?flag=orderPre&oid=${tbl.id}" class="btn btn-primary"> 预 览</a>
+           <a href="/Test/attendPre.html?attendid=<s:property value="attendid" />" class="btn btn-primary"> 预 览</a>
               <button  onclick="del(this)"  courseid="<s:property value="map.courseid" />" delid="<s:property value='attendid' />"  pNow="${pNow}" class="btn btn-danger"><i class="icon-trash icon-white"></i> 删除</button>
        </td>
         </tr>
@@ -167,10 +164,10 @@
         </s:if> --%>
     </ul>
 </div>             
-                  <footer>
+<!--                   <footer>
                         <hr>
                         <p class="pull-right">&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a></p>
-                    </footer>
+                    </footer> -->
             </div>
         </div>
     </div>

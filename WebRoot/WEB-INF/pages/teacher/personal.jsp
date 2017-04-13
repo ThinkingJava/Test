@@ -6,7 +6,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="en">
   <head>
-  <%@include file="/WEB-INF/pages/common/head.jsp"%>
+  
+     <!-- Demo page code -->
+ <%@include file="/WEB-INF/pages/common/head.jsp"%>
   
     <link rel="stylesheet" href="/Test/bootstrap/css/bootstrap-switch.css" />
     <script src="/Test/bootstrap/js/bootstrap-switch.js"></script>
@@ -20,19 +22,26 @@
         </div>
 
 	<ul class="breadcrumb">
-		<li><a href="/Test/home.do?flag=home">主页</a> <span
+		<li><a href="/Test/personal.html">主页</a> <span
 			class="divider">/</span></li>
 		<li class="active">个人中心</li>
 	</ul>
 
 	<div class="container-fluid">
             <div class="row-fluid">
-               	<s:if test="map.status==1">
-   			 <div class="alert alert-info">
-       			 <button type="button" class="close" data-dismiss="alert">×</button>
-      			  <strong>小提示：</strong> 密码更改成功！
-  			  </div>
+                      	<s:if test="map.status==1">
+				    <div class="alert alert-success">
+				        <button type="button" class="close" data-dismiss="alert">×</button>
+				        <strong>小提示：</strong> 更改成功！！
+				    </div>
 			      </s:if>
+			    	<s:if test="map.status==3">
+				    <div class="alert alert-error">
+				        <button type="button" class="close" data-dismiss="alert">×</button>
+				        <strong>小提示：</strong> <s:property value="map.message" />
+				    </div>
+			      </s:if>
+		 
 			 <div class="page-header" ></div>
         <form id="tabfrom" class="form-signin" action="/Test/updateTeacherMessage.html" enctype="multipart/form-data" method="post">         
 			<div class="btn-toolbar">
@@ -109,10 +118,10 @@
 
 </div>
                     
-                  <footer>
+             <!--      <footer>
                         <hr>
                         <p class="pull-right">&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a></p>
-                    </footer>
+                    </footer> -->
                     
             </div>
         </div>

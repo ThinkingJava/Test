@@ -41,6 +41,7 @@ public class ScoreId implements java.io.Serializable {
 		this.courseid = courseid;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -59,6 +60,7 @@ public class ScoreId implements java.io.Serializable {
 						.getCourseid().equals(castOther.getCourseid())));
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

@@ -99,7 +99,7 @@ public class Attend implements java.io.Serializable {
         object.put("student", student.toJSONObject());
         object.put("status", status);
         object.put("imagepath", imagepath);
-        object.put("datatime", datatime);
+        object.put("datatime", datatime.toString());
 		return object;
 
 }

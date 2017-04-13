@@ -1,9 +1,6 @@
 package com.ych.dao.teacher;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ych.dao.DaoSupport;

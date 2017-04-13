@@ -8,5 +8,6 @@ import com.ych.entity.Score;
 public interface ScoreDao extends BaseDao<Score>{
 	public List<Score> findByScoretoStudent(int studentId);
 	public List<Score> findByScoretoCourse(int courseId);
-	public Score findByScore(int studentId,int courseId);
+	public Score findByScore(String studentId,int courseId);
+//	public void deleteById(String studentId);
 }

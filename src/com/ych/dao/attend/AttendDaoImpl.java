@@ -24,4 +24,56 @@ public class AttendDaoImpl  extends DaoSupport<Attend> implements AttendDao{
 		return list;
 	}
 
+	@Override
+	public List<Attend> findByAttendCourse(String courseid) {
+		// TODO Auto-generated method stub
+		String where = "where courseid = ? and DATE(datatime) = CURDATE()";
+		Object[] queryParams = {courseid};
+		List<Attend> list = find(-1, -1, where, queryParams).getList();
+		return list;
+	}
+
+	@Override
+	public List<Attend> findByAttendCourseToYesterday(String courseid) {
+		// TODO Auto-generated method stub
+		String where = "where courseid = ? and DATE(datatime) = CURDATE() -1 ";
+		Object[] queryParams = {courseid};
+		List<Attend> list = find(-1, -1, where, queryParams).getList();
+		return list;
+	}
+
+	@Override
+	public int getCountByWhereToDay(String courseid) {
+		// TODO Auto-generated method stub
+		String where = "where courseid = ? and DATE(datatime) = CURDATE() ";
+		Object[] queryParams = {courseid};
+		
+		return (int)getCountByWhere(where, queryParams);
+	}
+
+	@Override
+	public int getCountByWhereYesterDay(String courseid) {
+		// TODO Auto-generated method stub
+		String where = "where courseid = ? and DATE(datatime) = CURDATE() -1 ";
+		Object[] queryParams = {courseid};
+		
+		return (int)getCountByWhere(where, queryParams);
+	}
+
+	@Override
+	public boolean findIsExitAttend(String studentId, String courseId) {
+		// TODO Auto-generated method stub
+		String where = "where courseid = ? and studentid = ? and DATE(datatime) = CURDATE() ";
+		Object[] queryParams = {courseId,studentId};
+		List<Attend> list =	find(-1, -1, where, queryParams).getList();
+		if(list!=null&&list.size()>0)
+			return true;
+		
+		return false;
+	}
+	
+	
+	
+	
+
 }

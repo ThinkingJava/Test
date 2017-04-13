@@ -20,7 +20,7 @@
         </div>
 
 	<ul class="breadcrumb">
-		<li><a href="/Test/home.do?flag=home">主页</a> <span
+		<li><a href="/Test/personal.html">主页</a> <span
 			class="divider">/</span></li>
 		<li class="active">学生考勤</li>
 	</ul>
@@ -33,10 +33,10 @@
     </ul>
         </div>
          
-                  <footer>
+<!--                   <footer>
                         <hr>
                         <p class="pull-right">&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a></p>
-                    </footer>
+                    </footer> -->
                     
             </div>
         </div>

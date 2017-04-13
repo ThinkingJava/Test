@@ -52,7 +52,7 @@
         </div>
         
                 <ul class="breadcrumb">
-            <li><a href="/WirelessOrder/home.do?flag=home">主页</a> <span class="divider">/</span></li>
+            <li><a href="/Test/personal.html">主页</a> <span class="divider">/</span></li>
             <li class="active">学生</li>
         </ul>
 
@@ -64,8 +64,18 @@
 				        <strong>小提示：</strong> 保存成功！！
 				    </div>
 			      </s:if>
-            <div class="page-header" ></div>
-            <form action="/Test/updateStudent.html" method="post" class="form-horizontal"  enctype="multipart/form-data" >    
+			      <s:if test="map.status==3">
+				    <div class="alert alert-error">
+				        <button type="button" class="close" data-dismiss="alert">×</button>
+				        <strong>小提示：</strong>  <s:property value="map.message"/>！！
+				    </div>
+			      </s:if>
+            <div class="page-header" >
+            	<a href="/Test/teacherCourse.html?course.courseid=<s:property value="map.courseid"/>">
+				<input type="button" class="btn" value="返  回">
+				  </a>
+            </div>
+            <form action="/Test/updateStudent.html?courseid=<s:property value="map.courseid"/>" method="post" class="form-horizontal"  enctype="multipart/form-data" >    
             <div class="row-fluid">
                <div class="span7">  	
                <input name="student.studentid"  id="student.studentid" type="hidden" value="<s:property value="student.studentid"/>">
@@ -150,17 +160,17 @@
                </div>
                <div class="form-actions">
 								<button type="submit" class="btn btn-primary">保  存</button>
-								<a href="/WirelessOrder/menu.do?flag=menu">
+<!-- 								<a href="/WirelessOrder/menu.do?flag=menu">
 								<input type="button" class="btn" value="返  回">
-							  </a>
+							  </a> -->
 				</div>
                </form>
-			<footer>
+			<!-- <footer>
 			<hr>
 			<p class="pull-right">
 				&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a>
 			</p>
-			</footer>
+			</footer> -->
             </div>
         </div>
     </div>

@@ -52,14 +52,14 @@
         </div>
         
                 <ul class="breadcrumb">
-            <li><a href="/Test/index.jsp">主页</a> <span class="divider">/</span></li>
+            <li><a href="/Test/personal.html">主页</a> <span class="divider">/</span></li>
             <li class="active">添加</li>
         </ul>
 
         <div class="container-fluid">
             <div class="row-fluid">
-            	<s:if test="map.status==2">
-				    <div class="alert alert-error">
+            	<s:if test="map.status==1">
+				    <div class="alert alert-success">
 				        <button type="button" class="close" data-dismiss="alert">×</button>
 				        <strong>小提示：</strong> 添加成功！！
 				    </div>
@@ -70,20 +70,19 @@
 				        <strong>小提示：</strong> <s:property value="map.message" />
 				    </div>
 			      </s:if>
-            <div class="page-header" ></div>
+            <div class="page-header" >						
+			<a href="/Test/attendMessage.html?attend.course.courseid=<s:property value="map.courseid" />" >
+			<button  class="btn">返 回</button>
+			</a>
+            </div>
             <form action="/Test/addAttend.html" method="post" class="form-horizontal"  enctype="multipart/form-data" >  
             
             <input id="status" type="hidden"  name="attend.status" value="1">
-            <input id="courseid" type="hidden"  name="attend.course.courseid" value="">
-              
+            <input id="courseid" type="hidden"  name="attend.course.courseid" value="<s:property value="map.courseid" />">
+            <input name="attend.student.studentid" class="input-xlarge focused" id="studentid" type="hidden" value="">  
             <div class="row-fluid">
                <div class="span7">  	
-					<div class="control-group">
-							<label class="control-label" for="name">学号</label>
-							<div class="controls">
-							<input name="attend.student.studentid" class="input-xlarge focused" id="name" type="text" value="">
-							</div>
-					</div>
+
 
 					<div class="control-group">
 					<label class="control-label" >课程</label>
@@ -91,11 +90,18 @@
 					<select id="mySelect" name="menutypes"  class="selectpicker show-tick"  data-size="4" >
 						<s:iterator value="#session.teacher.courses">
   						<option  value="<s:property value="courseid" />" ><s:property value="coursename" /></option>
-  						</s:iterator>
+  					</s:iterator>
 					</select>
 					</div>
 					</div>
 					
+					<div class="control-group">
+						<label class="control-label" for="name">学号</label>
+				       <div class="controls">		
+						<select id="studentID" name="menutypes"  class="selectpicker show-tick"  data-size="4" >			 			
+  		               </select>
+					</div>
+					</div>
 					
 					<div class="control-group">
 					<table>
@@ -132,22 +138,22 @@
                </div>
                <div class="form-actions">
 								<button type="submit" class="btn btn-primary">添 加</button>
-								<a href="/WirelessOrder/menu.do?flag=menu">
+<%-- 								<a href="/Test/attendMessage.html?attend.course.courseid=<s:property value="map.courseid" />" >
 								<button  class="btn">返 回</button>
-							  </a>
+							  </a> --%>
 				</div>
                </form>
-			<footer>
+<!-- 			<footer>
 			<hr>
 			<p class="pull-right">
 				&copy; 2013.8 <a href="#" target="_blank"> shun_fzll</a>
 			</p>
-			</footer>
+			</footer> -->
             </div>
         </div>
     </div>
 
-			<script type="text/javascript">
+			<script language="javascript" type="text/javascript">
 			
 			 $('.make-switch').on('switch-change', function (e, data){
 			        alert("状态更改");
@@ -157,19 +163,71 @@
 	            	 $("#status").val("1");	
 	             }
 	        	})
+	        	
+	        
+	        	
 			  
-			$(document).ready(function(){ 
+			$(document).ready(function(){ 			
+
 			$('#mySelect').change(function(){ 
 			//alert($(this).children('option:selected').val()); 
 			var p1=$(this).children('option:selected').val();//这就是selected的值 
 			//改变隐藏域中的值
 			$('#courseid').val(p1);
-			//var p2=$('#menutype').val();
-			//alert(p2)
+			
+			  //根据id查找对象，
+			var studentobj=document.getElementById('studentID');  
+			studentobj.options.length=0;  //设置为空
+			
+			var parameter = {}; 
+		//	alert(p2)
+	           $.ajax({  
+	               url: 'http://localhost:8080/Test/getCourseStudentAPI.html?course.courseid='+p1,  
+	               type: 'POST',  
+	               dataType: 'json',  
+	               data: parameter,  
+	               timeout: 3000,  
+	               cache: false,  
+	               beforeSend: LoadFunction, //加载执行方法      
+	               error: erryFunction,  //错误执行方法      
+	               success: succFunction //成功执行方法      
+	           })  
+	           function LoadFunction() {  
+	           }  
+	           function erryFunction() {  
+	           }  
+	           function succFunction(json) {  
+	        	   var obj = eval(json);
+	        	//   alert(obj.totalRecords);
+	        	   var studentList = eval(obj.student);
+	        	   $('#studentid').val(studentList[0].studentid);
+	        	   for(var i=0;i<obj.totalRecords;i++){	        		  	        	  
+	        	          //添加一个选项  
+	        	    //      studentobj.add(new Option(studentList[0].studentid,studentList[0].studentid));    //这个只能在IE中有效  
+	        	          studentobj.options.add(new Option(studentList[i].studentid,studentList[i].studentid)); //这个兼容IE与firefox   
+	        	   }
+	           } 
 			}) 
+			
+			$('#studentID').change(function(){ 
+				var p1=$(this).children('option:selected').val();//这就是selected的值 
+				//改变隐藏域中的值
+				$('#studentid').val(p1);
+			})
+			
+			var count = $('#mySelect option').length;
+			if(count>0){
+				$('#mySelect option:first').attr("selected","selected");
+				$('#mySelect').trigger("change");
+			}
+		
+			
 			}) 	
-			$('input[type=file]').bootstrapFileInput();
-		$('.file-inputs').bootstrapFileInput();		
+			
+
+
+		//	$('input[type=file]').bootstrapFileInput();
+	//	$('.file-inputs').bootstrapFileInput();		
 			</script>
   </body>
 </html>

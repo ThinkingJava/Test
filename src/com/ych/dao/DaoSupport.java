@@ -8,7 +8,6 @@ import java.util.Map;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -56,6 +55,8 @@ public class DaoSupport<T> implements BaseDao<T>{
 	    }
 	}
 
+
+
 	/**
 	 * 利用get()方法加载对象，获取对象的详细信息
 	 */
@@ -88,6 +89,16 @@ public class DaoSupport<T> implements BaseDao<T>{
 			}
 		});
 	}
+
+	public long getCountByWhere(String where, Object[] queryParams){
+	String	hql = new StringBuffer().append("select count(*) from ")//添加hql语句
+				.append(GenericsUtils.getGenericName(entityClass))//添加对象类型
+				.append(" ")//添加空格
+				.append(where == null ? "" : where)//如果where为null就添加空格,反之添加where
+				.toString();//转化为字符串
+	    return (Long)uniqueResult(hql,queryParams);
+	}
+	
 	/**
 	 * 获取指定对象的信息条数
 	 */
@@ -345,6 +356,7 @@ public class DaoSupport<T> implements BaseDao<T>{
 						this.hibernateTemplate.getEntityInterceptor(),
 						this.hibernateTemplate.getJdbcExceptionTranslator()));
 	}
+
 
 
 }
